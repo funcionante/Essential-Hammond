@@ -8,6 +8,12 @@
 \usepackage[printonlyused]{acronym}
 \usepackage{hyperref} % para autoref
 \usepackage{graphicx}
+\usepackage{listings}
+        \usepackage{color}
+        \definecolor{dkgreen}{rgb}{0,0.6,0}
+        \definecolor{gray}{rgb}{0.5,0.5,0.5}
+        \definecolor{mauve}{rgb}{0.8,0,0.82}
+        \lstset{frame=tb, language=python, aboveskip=3mm, belowskip=3mm, showstringspaces=false, columns=flexible, basicstyle={\small\ttfamily}, numbers=none, numberstyle=\tiny\color{gray}, keywordstyle=\color{blue}, commentstyle=\color{dkgreen}, stringstyle=\color{mauve}, breaklines=true, breakatwhitespace=true, tabsize=3}
 
 \bibliography{bibliografia}
 
@@ -104,13 +110,62 @@ Neste sentido, este documento está dividido em 7 capítulos. Depois desta intro
 \chapter{Páginas Web}
 \label{chap.estrutura}
 
-bla bla
+Para este projeto decidimos optar por três páginas web, para tornar a aplicação menos sobrecarregada visualmente e mais interativa do ponto de vista do utilizador.
+
+A página que nos aparece ao iniciar a aplicação chama-se "Adicionar música" (ver \autoref{music}), na qual vamos introduzir o código \ac{rtttl} da respetiva música na primeira caixa de texto e depois pressionamos o botão em baixo para podermos enviar o código para o servidor.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{images/adicionarmusica.jpg}
+\caption{Esboço da págna "Adicionar música".}
+\label{music}
+\end{figure}
+
+Na página "Adicionar intepretação" (ver \autoref{inter}), como o nome indica, vamos adicionar uma nova intepretação a uma música. Temos um \textit{dropdown} que nos vai colocar em lista as músicas guardadas, uma caixa de texto para adicionarmos um registo e outro \textit{dropdown} para acrescentar um efeito à nossa escolha, como ilustra a figura. Após estas escolhas, temos de adicionar o nome que queremos dar à intepretação e enviar para o servidor.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{images/adicionarinterpretacao.jpg}
+\caption{Esboço da págna "Adicionar interpretação".}
+\label{inter}
+\end{figure}
+
+Finalmente, temos a página "Reproduzir música" (ver \autoref{play}), na qual vamos fazer essencialmente reproduzir música. Para isso temos de escolher a música num \textit{dropdown}, escolher a intepretação e carregar no \textit{play}. Ao lado de cada intepretação temos uma barra de gostos/não gostos para classificar cada música.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{images/playsong.jpg}
+\caption{Esboço da págna "Play song".}
+\label{play}
+\end{figure}
+
+No decorrer do projeto vamos adicionar mais alguns botões e \textit{navbars} de modo a facilitar a navegação pela \textit{app}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Servidor}
 \label{chap.servidor}
 
-bla bla
+Vai ser utilizado o módulo CherryPy \cite{cherry} para fazer um servidor HTTP que irá ter funcionalidades como GET e POST. Vai utilizar o \ac{json} como o meio de transporte de informação entre a base de dados e a Aplicação Web.
+
+Os serviços a implementar seguirão o modelo dos colocados no enunciado do projeto.
+
+Estamos a considerar não implementar o \emph{/getWaveFile} e \emph{/getWaveForm}, visto que, se guardarmos os ficheiros com o nome igual ao seu identificador, a sua procura é facilitada, podendo-se aceder diretamente ao \emph{link} em que se encontram. Por exemplo, para obter o ficheiro de música da interpretação com id 5, acedemos a \emph{/interpretations/5.wav}.
+
+Se o utilziador pedir a lista de músicas existentes (\emph{/listSongs}), o servidor acede à base de dados e irá gerar um ficheiro \ac{json} com informação das músicas existentes e a aplicação web irá interpretar esse ficheiro. Um exemplo de ficheiro \ac{json} poderia ser:
+
+\begin{lstlisting}
+{
+    {
+        "id": 1,
+        "name": "The Simpsons"
+    },
+    {
+        "id": 2,
+        "name": "The Family Guy"
+    }
+}
+\end{lstlisting}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Som}
@@ -122,9 +177,10 @@ Os módulos ligados ao processamento e geração de ficheiros de som seguirão o
 \label{chap.base}
 
 A base de dados associada ao projecto serão duas tabelas \textbf{musics, interpretation} que estão interligadas entre si e as quais servirão para armazenar informação acerca dos conteúdos.
-A tabela \textbf{musics} conterá informação com o \textbf{name} das músicas criadas e as \textbf{notes} (pautas) que lhes são correspondentes, sendo que a estes dois campos há um \textbf{id} que lhes identifique.
-Por outro lado a tabela \textbf{interpretation} terá campos como
-\textbf{\texttt{id\_music}} que estará associado à tabela \textbf{musics}. Conterá também campos como \textbf{(registration)} (registos) que servirá para a codificação do registo, que é um numero com oito dígitos,  e o campo \textbf{effects} (efeitos) servindo para guardar informação sobre e os efeitos utilizados na música.
+A tabela \textbf{musics} conterá informação com o \textbf{name} das músicas criadas e as \textbf{notes} (pautas) que lhes são correspondentes, sendo que a estes dois campos há um \textbf{id} que os identifica.
+
+Por outro lado, a tabela \textbf{interpretation} terá campos como
+\textbf{\texttt{id\_music}} que estará associado à tabela \textbf{musics}. Conterá também campos como \textbf{(registration)} (registos) que servirá para a codificação do registo  e o campo \textbf{effects} (efeitos), servindo para guardar informação sobre e os efeitos utilizados na música.
 Finalmente, os campos \textbf{upvotes} e \textbf{downvotes} guardarão respectivamente o número de votos positivos e negativos. 
 
 
@@ -133,7 +189,7 @@ A \autoref{tree} apresenta o esquema da árvore da base de dados.
 \begin{figure}[htp]
 \centering
 \includegraphics[width=\textwidth]{images/tree.jpg}
-\caption{Árvore da base de dados, com as tabelas da música (\emph{musics}) e interpretação (\emph{interpretation})}.
+\caption{Árvore da base de dados, com as tabelas da música (\emph{musics}) e interpretação (\emph{interpretation}).}
 \label{tree}
 \end{figure}
 
@@ -175,6 +231,8 @@ Embora não tenha sido aqui referido com pormenor, serão efetuados alguns teste
 \begin{acronym}
 \acro{sql}[SQL] {Structured Query Language}
 \acro{html} [HTML] {HyperText Markup Language}
+\acro{rtttl} [RTTTL] {Ring Tone Transfer Language}
+\acro{json} [JSON] {JavaScript Object Notation}
 
 \end{acronym}
 
