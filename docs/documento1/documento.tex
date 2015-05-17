@@ -121,11 +121,18 @@ Os módulos ligados ao processamento e geração de ficheiros de som seguirão o
 \chapter{Árvore da base de dados}
 \label{chap.base}
 
+A base de dados associada ao projecto serão duas tabelas \textbf{musics, interpretation} que estão interligadas entre si e as quais servirão para armazenar informação acerca dos conteúdos.
+A tabela \textbf{musics} conterá informação com o \textbf{name} das músicas criadas e as \textbf{notes} (pautas) que lhes são correspondentes, sendo que a estes dois campos há um \textbf{id} que lhes identifique.
+Por outro lado a tabela \textbf{interpretation} terá campos como
+\textbf{\texttt{id\_music}} que estará associado à tabela \textbf{musics}. Conterá também campos como \textbf{(registration)} (registos) que servirá para a codificação do registo, que é um numero com oito dígitos,  e o campo \textbf{effects} (efeitos) servindo para guardar informação sobre e os efeitos utilizados na música.
+Finalmente, os campos \textbf{upvotes} e \textbf{downvotes} guardarão respectivamente o número de votos positivos e negativos. 
+
+
 A \autoref{tree} apresenta o esquema da árvore da base de dados.
 
 \begin{figure}[htp]
 \centering
-\includegraphics[width=\textwidth]{images/tree.png}
+\includegraphics[width=\textwidth]{images/tree.jpg}
 \caption{Árvore da base de dados, com as tabelas dos utilizadores (\emph{users}), livros (\emph{books}) e requisições (\emph{requisitions}).}
 \label{tree}
 \end{figure}
@@ -144,7 +151,7 @@ Estão previstas três fases de desenvolvimento do projeto:
 \section{Fase 1}
 Inicialmente, será desenvolvida cada uma das partes da aplicação em separado e a distribuição das tarefas é a seguinte:
 \begin{itemize}
-\item Domingos - Implementação do mockup das páginas \ac{html};
+\item Domingos - Implementação do \textit{mockup} das páginas \ac{html};
 \item Dzianis - Implementação do servido;
 \item Francisco - Implementação da base de dados;
 \item Leonardo - Implementação do sintetizador e interpretador de pautas.
