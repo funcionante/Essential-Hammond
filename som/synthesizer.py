@@ -2,12 +2,9 @@ import json
 import math
 from math import sin, pi
 
-def synthesizer(filename, registration):
-	infile = open(filename, 'r')
-	content = infile.read()
+def normalizer
 
-	#json from interpreter with the info of notes and duration. pairs frequence-time
-	pairs = json.loads(content)
+def synthesizer(pairs, registration):
 
 	#dictio to be converted into json with all the samples of the music. pairs frequence-samples
 	sounds = []
@@ -41,7 +38,7 @@ def synthesizer(filename, registration):
 			sample = 0
 			
 			for j in range(0, 9):
-				sample += amplitudes[j] * sin(2 * math.pi * freqs[j] * i / rate)
+				sample += int(amplitudes[j] * sin(2 * math.pi * freqs[j] * i / rate))
 			data.append(sample)
 
 		print len(data)
@@ -50,13 +47,22 @@ def synthesizer(filename, registration):
 		
 		sounds.append({'freq': mainfreq, 'samples': data})
 		
-		
 		print sounds
 		
-	outfile = open('2.json', 'w')
-	json.dump(sounds, outfile)
-	outfile.close()
+	return sounds 
+		
+	
 
 if __name__ == '__main__':
 	
-	synthesizer('1.json', "008000000")
+	infile = open('1pauta.json', 'r')
+	content = infile.read()
+
+	#json from interpreter with the info of notes and duration. pairs frequence-time
+	pairs = json.loads(content)
+	
+	sounds = synthesizer(pairs, "888888888")
+	
+	outfile = open('1inter.json', 'w')
+	json.dump(sounds, outfile)
+	outfile.close()

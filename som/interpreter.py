@@ -3,8 +3,8 @@ import math
 
 freqs = [None] * 100
 
-for i in range(-50, 50):
-	freqs[i] = 444 * math.pow(2,(i/12))
+for i in range(-48, 48):
+	freqs[i] = int(220 * math.pow(2,(i/12.0)))
 	print freqs[i]
 	
 
@@ -35,7 +35,7 @@ def interpreter(pauta):
 	#gets the part that contains the presets of the parameters
 	parameters = pauta[pauta.find(':')+1:pauta.rfind(':')]
 	
-	#defines de 3 parameters according to the presets
+	#defines the 3 parameters according to the presets
 	d = updateParameter(parameters, 'd=', 4)
 	o = updateParameter(parameters, 'o=', 6)
 	b = updateParameter(parameters, 'b=', 63)
@@ -55,73 +55,80 @@ def interpreter(pauta):
 		note = notes[:notes.find(',')]
 		
 		i = 0
-		newd = 0
+		newd = ''
 		fifty = False
-		newo = 0
+		newo = ''
 		
 		while note[i].isdigit():
-			newd = newd + int(note[i])
-			i += 1
+			newd = newd + note[i]
+			i += 1			
 		
-		if note.find('c') != -1:
-			tone = 0
-			i += 1
-		elif note.find('c#') != -1:
-			tone = 1
-			i += 2
-		elif note.find('d') != -1:
-			tone = 2
-			i += 1
-		elif note.find('d#') != -1:
-			tone = 3
-			i += 2
-		elif note.find('e') != -1:
+		if note.find('c#') != -1:
 			tone = 4
-			i += 1
-		elif note.find('f') != -1:
-			tone = 5
-			i += 1
-		elif note.find('f#') != -1:
+			
+		elif note.find('c') != -1:
+			tone = 3		
+
+		elif note.find('d#') != -1:
 			tone = 6
-			i += 2
-		elif note.find('g') != -1:
+			
+		elif note.find('d') != -1:
+			tone = 5
+
+		elif note.find('e') != -1:
 			tone = 7
-			i += 1
-		elif note.find('g#') != -1:
-			tone = 8
-			i += 2
-		elif note.find('a') != -1:
+		elif note.find('f#') != -1:
 			tone = 9
-			i += 1
-		elif note.find('a#') != -1:
-			tone = 10
-			i += 2
-		elif note.find('b') != -1 or note.find('h') != -1:
+			
+		elif note.find('f') != -1:
+			tone = 8
+
+		elif note.find('g#') != -1:
 			tone = 11
-			i += 1
+
+		elif note.find('g') != -1:
+			tone = 10
+
+		elif note.find('a#') != -1:
+			tone = 1
+
+		elif note.find('a') != -1:
+			tone = 0
+
+		elif note.find('b') != -1 or note.find('h') != -1:
+			tone = 2
+
 		else:
 			tone = 77
+
 			
-		print tone
+		print ("tone: %d") % (tone)
 		
 		if note.find('.') != -1:
 			fifty = True
-			i += 1
-			print fifty
+			i = note.find('.') + 1
 		
 		while i < len(note) and note[i].isdigit():
-			newo = newo + int(note[i])
+			newo = newo + note[i]
 			i += 1
 		
 		
-		if newd == 0:
+		print "note:" + note
+			
+		if newd == '':
 			newd = d
 		
-		if newo == 0:
+		if newo == '':
 			newo = o
 		
-		print newd
-		time = float((float(60)/float(b)) * (float(1)/float(newd)))
+		print "newo:" + newo
+		print "newd:" + newd
+		
+		newd = int(newd)
+		newo = int(newo)
+		b = int(b)
+		
+		time = float((float(60)/b) * (1.0/newd))
 		
 		if fifty:
 			time = 1.5 * time
@@ -129,26 +136,25 @@ def interpreter(pauta):
 		print ('time: %f') % time
 		
 		if tone != 77:
-			freq = 12 * (int(newo) - 4) + tone
+			freq = freqs[12 * (int(newo) - 4) + tone]
 		else:
 			freq = 0
 			
 		print ('freq: %f') % freq
 		
-		data.append({'time': time, 'freq': freq})
+		data.append({'time': 4*time, 'freq': freq})
 		
 		if notes.find(',') != -1:	
 			notes = notes[notes.find(',')+1:]
+			print i
 			print i
 			print notes
 		else:
 			break
 	
-	name = name + '.json'
+	return data
 	
-	outfile = open(name, 'w')
-	json.dump(data, outfile)
-	outfile.close()
+
 
 if __name__ == '__main__':
 	
@@ -156,5 +162,11 @@ if __name__ == '__main__':
 	
 	print pauta
 	
-	interpreter(pauta)
+	data = interpreter(pauta)
+	
+	name = '1.json'
+	
+	outfile = open(name, 'w')
+	json.dump(data, outfile)
+	outfile.close()
 	
