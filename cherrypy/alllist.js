@@ -1,1 +1,1 @@
-alllist([{"name": ["The Simpsons"]}, {"name": ["The Family Guy"]}, {"name": ["The Simpsons"]}, {"name": ["The Nicki"]}])
+alllist([{"id": 1, "name": "The Simpsons"}, {"id": 2, "name": "The Family Guy"}, {"id": 3, "name": "The Simpsons"}, {"id": 4, "name": "The Nicki"}, {"id": 5, "name": "The LOL"}])

@@ -14,33 +14,51 @@ class Root(object):
 	def createSong(self, **kw):
 		x = repr(dict(kw=kw))
 		x = x.split("'")
-		xdourl = x[9]
-		ydourl = x[5]
+		xdourl = ""
+		ydourl = ""
 		xdox = x[7]
 		ydoy = x[3]
-		if(xdox == "name"):
-			print "o x é " + xdourl
-		if(ydoy == "notes"):
-			print "o y é " + ydourl
+		if(xdox == "name" and ydoy == "notes"):
+			xdourl = x[9]
+			ydourl = x[5]
 
-		db = sql.connect("database.db")
-		db.execute("INSERT INTO song (name,sheet) VALUES (?,?)", (xdourl,ydourl,))
-		db.commit()
-		db.close()
+			db = sql.connect("database.db")
+			db.execute("INSERT INTO song (name,sheet) VALUES (?,?)", (xdourl,ydourl,))
+			db.commit()
+			db.close()
 
-		return "" + xdourl + " | " + "" + ydourl
+		return "Música enviada com sucesso!"
 
 	@cherrypy.expose
-	def allmusic(self):
+	def getNotes(self, **kw):
+		x = repr(dict(kw=kw))
+		x = x.split("'")
+		ydourl = ""
+		row = ""
+		ydoy = x[3]
+		if(ydoy == "id"):
+			ydourl = x[5]
+			print ydourl
+			db = sql.connect("database.db")
+			result = db.execute("SELECT sheet FROM song WHERE id=?",(ydourl,))
+			rows = result.fetchone()
+			row = rows
+			db.commit()
+			db.close()
+
+		return row
+
+	@cherrypy.expose
+	def listSongs(self):
 		db = sql.connect("database.db")
-		result = db.execute("SELECT name FROM song")
+		result = db.execute("SELECT * FROM song")
 		rows = result.fetchall()
 		d = []
 		for row in rows:
 			print row
-			name = {"name":row}
+			name = {"id":row[0],"name":row[1],"notes":row[2]}
 			d.append(name)
-		print len(row)
+		print d
 		'''for x in row:
 			name = {"name":x}
 			d.append(name)
@@ -76,6 +94,6 @@ class Root(object):
 	def alllist(self):
 		return open("alllist.js","r")
 cherrypy.config.update({'server.socket_host': '127.0.0.1',
-	'server.socket_port': 8080,
+	'server.socket_port': 8083,
 	})
 cherrypy.quickstart(Root())
