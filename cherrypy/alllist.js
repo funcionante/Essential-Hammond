@@ -1,0 +1,1 @@
+alllist([{"name": ["The Simpsons"]}, {"name": ["The Family Guy"]}, {"name": ["The Simpsons"]}, {"name": ["The Nicki"]}])
