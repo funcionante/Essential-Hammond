@@ -1,10 +1,32 @@
+#!/usr/bin/python
+# encoding=utf-8
+
 import json
 import math
 from math import sin, pi
 
-def normalizer
+#return the same list of freqs-samples with the samples normalized to a default value
+def normalize(sounds, value):
+	
+	maximum = 0
+	
+	for note in sounds:
+		for sample in note['samples']:
+			if module(sample) > maximum:
+				maximum = module(sample)
+	
+	for note in sounds:
+		for sample in note['samples']:
+			sample = int(float(sample) * maximum / value)
+	
+	return sounds
+			
+def module(value):
+	if value < 0:
+		return -value
+	return value
 
-def synthesizer(pairs, registration):
+def generate_sounds(pairs, registration):
 
 	#dictio to be converted into json with all the samples of the music. pairs frequence-samples
 	sounds = []
@@ -25,11 +47,10 @@ def synthesizer(pairs, registration):
 		duration = pair['time']
 		
 		for i in range(0, 9):
-			freqs[i] = mainfreq * ratio[i]
+			freqs[i] = int(mainfreq * ratio[i])
 			amplitudes[i] = float(registration[i]) / 8 * 2000
 		
 		data = []
-		
 		
 		nsamples = int(rate * duration)
 			
@@ -40,29 +61,23 @@ def synthesizer(pairs, registration):
 			for j in range(0, 9):
 				sample += int(amplitudes[j] * sin(2 * math.pi * freqs[j] * i / rate))
 			data.append(sample)
-
-		print len(data)
-		
-		sounds2 = {}
 		
 		sounds.append({'freq': mainfreq, 'samples': data})
 		
-		print sounds
-		
+	sounds = normalize(sounds, 32000)
+	
 	return sounds 
 		
 	
 
 if __name__ == '__main__':
 	
-	infile = open('1pauta.json', 'r')
-	content = infile.read()
-
-	#json from interpreter with the info of notes and duration. pairs frequence-time
-	pairs = json.loads(content)
+	pauta = 'The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6'
 	
-	sounds = synthesizer(pairs, "888888888")
+	pairs = generate_pairs(pauta)
 	
-	outfile = open('1inter.json', 'w')
+	sounds = generate_sounds(pairs, "888888888")
+	
+	outfile = open('sounds.json', 'w')
 	json.dump(sounds, outfile)
 	outfile.close()
