@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="ui-mobile">
+	<head>
+		<meta charset="utf-8">
+		<title>Proj2App</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="static/css/verde.min.css" />
+		<link rel="stylesheet" href="static/css/jquery.mobile.icons.min.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<script type="text/javascript" src="/static/js/java.js"></script>
+	</head>
+	<body>
+		<div data-role="page" id="intro" style="background-color: #090">
+			<div role="main" class="ui-content">
+				<p style="color: white;font-size: 200%;padding-top:20%">Cria música na Proj2App</p>
+				<p style="color: white;font-size: 150%;padding-bottom: 20%">E prometo que não te vais arrepender!</p>
+				<a href="#addMusic" id="loadTemp"class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-icon-left ui-icon-carat-r" data-transition="slidedown">Carrega aqui para entrar</a>
+			</div>
+		</div>
+		<div data-role="page" id="addMusic" >
+			<div data-role="header">
+				<a href="#intro" data-icon="home" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Home</a>
+				<h1>Adicionar Música</h1>
+				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Refresh</a>
+			</div>
+			<div data-role="main" style="padding: 10px">
+				<label for="text-basic">Código:</label>
+				<textarea cols="40" rows="8" name="textarea-2" id="textarea-2"></textarea>
+				<button class="ui-shadow ui-btn ui-corner-all ui-btn-inline" type="submit" id="submit-2">Enviar</button>
+			</div>
+			<div data-role="footer" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li><a href="#addInt" data-icon="edit" >Intepretação</a></li>
+						<li><a href="#playSong" data-icon="carat-r">PlaySong</a></li>
+						<li><a href="#us" data-icon="user">About Us</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div data-role="page" id="addInt">
+			<div data-role="header">
+				<a href="#intro" data-icon="home" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Home</a>
+				<h1>Intepretação</h1>
+				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Refresh</a>
+			</div>
+			<div data-role="main" style="padding: 10px">
+				<form>
+					<div class="ui-field-contain">
+						<select name="select-native-1" id="select-native-1">
+							<option value="">Escolhe a musica:</option>
+							<option value="1">The 1st Option</option>
+							<option value="2">The 2nd Option</option>
+							<option value="3">The 3rd Option</option>
+							<option value="4">The 4th Option</option>
+						</select>
+					</div>
+				</form>
+				<label for="text-basic">Registo:</label>
+				<textarea cols="40" rows="8" name="textarea-2" id="textarea-2"></textarea>
+				<form>
+					<div class="ui-field-contain">
+						<select name="select-native-1" id="select-native-1">
+							<option value="">Escolhe o efeito:</option>
+							<option value="1">The 1st Option</option>
+							<option value="2">The 2nd Option</option>
+							<option value="3">The 3rd Option</option>
+							<option value="4">The 4th Option</option>
+						</select>
+					</div>
+				</form>
+				<label for="text-basic">Nome da Intepretação:</label>
+				<textarea cols="40" rows="8" name="textarea-2" id="textarea-2"></textarea>
+				<button class="ui-shadow ui-btn ui-corner-all ui-btn-inline" type="submit" id="submit-2">Enviar</button>
+			</div>
+			<div data-role="footer" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li><a href="#addMusic" data-icon="plus" >Música</a></li>
+						<li><a href="#playSong" data-icon="carat-r">PlaySong</a></li>
+						<li><a href="#us" data-icon="user">About Us</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div data-role="page" id="playSong">
+			<div data-role="header">
+				<a href="#intro" data-icon="home" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Home</a>
+				<h1>PlaySong</h1>
+				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Refresh</a>
+			</div>
+			<div data-role="main" style="padding: 10px">
+				<form>
+					<div class="ui-field-contain">
+						<select name="select-native-1" id="select-native-1">
+							<option value="">Escolhe a musica:</option>
+							<option value="1">The 1st Option</option>
+							<option value="2">The 2nd Option</option>
+							<option value="3">The 3rd Option</option>
+							<option value="4">The 4th Option</option>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div data-role="footer" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li><a href="#addMusic" data-icon="plus" >Música</a></li>
+						<li><a href="#addInt" data-icon="edit">Intepretação</a></li>
+						<li><a href="#us" data-icon="user">About Us</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div data-role="page" id="us">
+			<div data-role="header">
+				<a href="#intro" data-icon="home" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Home</a>
+				<h1>About Us</h1>
+				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Refresh</a>
+			</div>
+			<div data-role="footer" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li><a href="#addMusic" data-icon="plus" >Música</a></li>
+						<li><a href="#addInt" data-icon="edit">Intepretação</a></li>
+						<li><a href="#playSong" data-icon="carat-r">PlaySong</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
