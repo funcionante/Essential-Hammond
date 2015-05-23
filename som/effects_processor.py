@@ -5,38 +5,63 @@ import wave
 import json
 from struct import pack
 from math import sin, pi
+from interpreter import generate_pairs
+from synthesizer import generate_sounds
 
+#returns the positive part of a value
+def module(value):
+	if value < 0:
+		return -value
+	return value
 
-#null effect
+#return the same list of samples with the samples normalized to a default value
+def normalize(data, value = 32767):
+	
+	maximum = 0
+	
+	for i in range(0, len(data)):
+		if module(data[i]) > maximum:
+			maximum = module(data[i])
+	
+	print maximum
+	
+	if maximum != 0:
+		for i in range(0, len(data)):
+			data[i] = int(float(data[i]) * value / maximum)
+	
+	return data
+
+#applis null effect and returns the samples
 def effect_none(data, sounds):
     
 	for sound in sounds:
 		data += sound['samples']
+	
+	data = normalize(data)
 		
 	return data
 
+#applies echo effect and returns the samples
 def effect_echo(data, sounds):
 	
 	data = effect_none(data, sounds)
 	
-	print len(data)
-	
+	#increases the duration by 0.5 seconds, so the echo in the end of the music is not cut
 	for i in range(0, 4410 * 5):
 		data.append(0)
 	
+	#double echo (0.1 and 0.2 of delay)
 	for i in range (0, len(data)):
 		if i > 4410:
 			data[i] += 0.5 * data[i-4410]
 		
 		if i > 4410 * 2:
-			data[i] += 0.2 * data[i-4410*2]
-
+			data[i] += 0.3 * data[i-4410*2]
 	
+	data = normalize(data)
+
 	return data
 		
-		
-	
-
 def create_wav_file(fname, sounds, rate=44100, effect='none'):
 
 	wv = wave.open(fname, 'w')
@@ -44,7 +69,7 @@ def create_wav_file(fname, sounds, rate=44100, effect='none'):
 
 	data = []
 	
-	# apply effects
+	# applies the effects
 	if effect == 'none':
 		data = effect_none(data, sounds)
 	
@@ -65,6 +90,6 @@ if __name__ == '__main__':
 	
 	pairs = generate_pairs(pauta)
 	
-	sounds = generate_sounds(pairs, "888888888")
+	sounds = generate_sounds(pairs, '888888888')
 	
 	create_wav_file('test.wav', sounds, 44100, 'echo')

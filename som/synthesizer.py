@@ -4,37 +4,18 @@
 import json
 import math
 from math import sin, pi
+from interpreter import generate_pairs
 
-#return the same list of freqs-samples with the samples normalized to a default value
-def normalize(sounds, value):
-	
-	maximum = 0
-	
-	for note in sounds:
-		for sample in note['samples']:
-			if module(sample) > maximum:
-				maximum = module(sample)
-	
-	for note in sounds:
-		for sample in note['samples']:
-			sample = int(float(sample) * maximum / value)
-	
-	return sounds
-			
-def module(value):
-	if value < 0:
-		return -value
-	return value
 
 def generate_sounds(pairs, registration):
 
-	#dictio to be converted into json with all the samples of the music. pairs frequence-samples
+	#dictio to be converted into json with all the samples of the music. pairs frequency-samples
 	sounds = []
 	
-	#frequences of the 9 oscillators calculated for each note
+	#frequencies of the 9 oscillators calculated for each note
 	freqs = [None] * 9
 	
-	#ratio to calculate frequences (lookup table)
+	#ratio to calculate frequencies (lookup table)
 	ratio = [1.0/2, 2.0/3, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0]
 	
 	#amplitudes calculated for each note by the registration
@@ -63,8 +44,6 @@ def generate_sounds(pairs, registration):
 			data.append(sample)
 		
 		sounds.append({'freq': mainfreq, 'samples': data})
-		
-	sounds = normalize(sounds, 32000)
 	
 	return sounds 
 		
@@ -76,7 +55,7 @@ if __name__ == '__main__':
 	
 	pairs = generate_pairs(pauta)
 	
-	sounds = generate_sounds(pairs, "888888888")
+	sounds = generate_sounds(pairs, '888888888')
 	
 	outfile = open('sounds.json', 'w')
 	json.dump(sounds, outfile)
