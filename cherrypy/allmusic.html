@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <body>
 
 <div id="id"></div>
 <script>
-function alllist(arr) {
-    var out = "";
-    var i;
-    for(i = 0; i<arr.length; i++) {
-        out += '<a>' + arr[i].id + " : " + arr[i].name + '</a><br>';
-    }
-    document.getElementById("id").innerHTML = out;
-}
+$(document).ready(function()
+{
+	$.get('/listSongs', function(data) {
+		for (var i = data.length - 1; i >= 0; i--) {
+			document.write(data[i].id + " - " + data[i].name + ": " + data[i].notes + "<br>");
+		};
+	});
+});
 </script>
-<script src="alllist"></script>
 
 </body>
-</html>\\
+</html>

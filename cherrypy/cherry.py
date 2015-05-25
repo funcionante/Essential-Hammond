@@ -1,15 +1,17 @@
 #encoding:utf8
-import os, os.path
 import cherrypy
-import simplejson
-import csv
-import StringIO
-import sys
 import sqlite3 as sql
-import json, io
 
 class Root(object):
+
+	#DONE!
+	@cherrypy.expose
+	def index(self):
+		return open("index.html","r")
+
 	#http://localhost:8080/createSong?name=The%20Simpsons&notes=c.6,e6,f%236,8a6,g.6,e6,c6,8a,8f%23,8f%23,8f%23,2g,8p,8p,8f%23,8f%23,8f%23,8g,a%23.,8c6,8c6,8c6,c6
+	
+	#DONE!
 	@cherrypy.expose
 	def createSong(self, **kw):
 		x = repr(dict(kw=kw))
@@ -25,10 +27,39 @@ class Root(object):
 			db = sql.connect("database.db")
 			db.execute("INSERT INTO song (name,sheet) VALUES (?,?)", (xdourl,ydourl,))
 			db.commit()
+			result = db.execute("SELECT * FROM song")
+			rows = result.fetchall()
+			d = []
+			for row in rows:
+				name = {"id":row[0],"name":row[1],"notes":row[2]}
+				d.append(name)
 			db.close()
 
 		return "Música enviada com sucesso!"
 
+	#ALMOST DONE!
+	@cherrypy.expose
+	def getWaveForm(self, **kw):
+		x = repr(dict(kw=kw))
+		x = x.split("'")
+		if (x[3] == "id"):
+			x = "http://localhost:2222/img/"+x[5]+".jpg"
+		else:
+			x = "None"
+		return x
+
+	#ALMOST DONE!
+	@cherrypy.expose
+	def getWaveFile(self, **kw):
+		x = repr(dict(kw=kw))
+		x = x.split("'")
+		if (x[3] == "id"):
+			x = "http://localhost:2222/audio/"+x[5]+".wav"
+		else:
+			x = "None"
+		return x
+
+	#DONE!
 	@cherrypy.expose
 	def getNotes(self, **kw):
 		x = repr(dict(kw=kw))
@@ -48,31 +79,36 @@ class Root(object):
 
 		return row
 
+	#DONE!
 	@cherrypy.expose
+	@cherrypy.tools.json_out()
 	def listSongs(self):
 		db = sql.connect("database.db")
 		result = db.execute("SELECT * FROM song")
 		rows = result.fetchall()
 		d = []
 		for row in rows:
-			print row
 			name = {"id":row[0],"name":row[1],"notes":row[2]}
 			d.append(name)
-		print d
-		'''for x in row:
-			name = {"name":x}
-			d.append(name)
-		print d'''
 
-		f = open('alllist.js','w')
+		return d
+
+		'''
+		f = open('js/alllist.js','w')
 		f.write(unicode("alllist("))
 		f.write(unicode(json.dumps(d, ensure_ascii=False)))
 		f.write(unicode(")"))
 		f.close()
 		db.commit()
 		db.close()
+		return open("allmusic.html","r")'''
+
+	#DONE! JUST FOR TEST
+	@cherrypy.expose
+	def allmusic(self):
 		return open("allmusic.html","r")
 
+	#NOT USEFULL
 	def update(self):
 		cl = cherrypy.request.headers['Content-Length']
 		rawbody = cherrypy.request.body.read(int(cl))
@@ -86,14 +122,13 @@ class Root(object):
 		db.commit()
 		db.close()
 
+	#JUST FOR TEST
 	@cherrypy.expose
 	def upload(self):
 		return open("upload.html")
 
-	@cherrypy.expose
-	def alllist(self):
-		return open("alllist.js","r")
 cherrypy.config.update({'server.socket_host': '127.0.0.1',
-	'server.socket_port': 8083,
+	'server.socket_port': 2222,
 	})
-cherrypy.quickstart(Root())
+
+cherrypy.quickstart(Root(),'/','config.conf')
