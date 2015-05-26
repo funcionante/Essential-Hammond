@@ -11,7 +11,7 @@ def create_song(name, notes):
 def get_musics():
 	command = 'SELECT * FROM musics'
 	db.execute(command)
-	db.commit();
+
 
 def create_interpretation(registration, effects):
 	
@@ -23,7 +23,6 @@ def get_interpretations():
 	
 	command = 'SELECT * FROM interpretations'
 	db.execute(command)
-	db.commit();
 	
 def list_songs(music):
 	
@@ -40,6 +39,8 @@ def list_songs(music):
 		
 #def listSongFiles():
 
+	#Devolve a lista de ficheiros de uma música. Estes ficheiros podem ser imagens apresentando uma visão gráfica das notas da música e ficheiros WAV com a música
+
 def get_notes(ID):
 	
 	command = 'SELECT * FROM musics WHERE id =' + ID
@@ -47,11 +48,15 @@ def get_notes(ID):
 	return result.fetchall()
 
 #def get_waveFile():
-
+	
+	#Devolve um ficheiro WAV contendo a interpretação da música.
+	
 #def get_waveForm():
 
-'''   def get_interpretations_by_music_id(ID):
-	command = 'SELECT FROM interpretations, musics WHERE '  '''
+	#Devolve uma imagem contendo uma representação gráfica das notas
+
+def get_interpretations_by_music_id(ID):
+	command = 'SELECT FROM interpretations, musics WHERE '
 	
 	
 def edit_musics(ID, name, notes):
@@ -72,6 +77,17 @@ def edit_interpretations(ID, registration, effects):
 		command = 'UPDATE interpretations SET effects = "' + effects + '" WHERE id = ' + ID
 		db.execute(command)
 
+
+def more_upvotes(ID, upvotes):
+	command = 'UPDATE interpretations SET upvotes = "' + upvotes + 1 +  '" WHERE id = ' + ID
+	db.execute(command)
+	db.commit()
+	
+def more_downvotes(ID, downvotes):
+	command = 'UPDATE interpretations SET downvotes = "' + downvotes + 1 +  '" WHERE id = ' + ID
+	db.execute(command)
+	db.commit()
+	
 #creates a new library database if there is no one. needs create.txt file to work properly.
 if not os.path.isfile('songs.db'):
 	
