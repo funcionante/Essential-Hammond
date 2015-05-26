@@ -1,0 +1,2 @@
+CREATE TABLE musics(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, notes TEXT);
+CREATE TABLE interpretations(id INTEGER PRIMARY KEY AUTOINCREMENT, id_music INTEGER, registration INTEGER, effects TEXT, upvotes INTEGER, downvotes INTEGER);
