@@ -20,53 +20,56 @@ class Root(object):
 	#DONE!
 	@cherrypy.expose
 	def createSong(self, **kw):
-		x = repr(dict(kw=kw))
-		x = x.split("'")
-		xdourl = ""
-		ydourl = ""
-		xdox = x[7]
-		ydoy = x[3]
-		if(xdox == "name" and ydoy == "notes"):
-			xdourl = x[9]
-			ydourl = x[5]
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			#y do url = x[5]
+			#x do url = x[9]
+			if(x[7] == "name" and x[3] == "notes"):
+				db = sql.connect("database.db")
+				db.execute("INSERT INTO song (name,sheet) VALUES (?,?)", (x[9],x[5],))
+				db.commit()
+				result = db.execute("SELECT id FROM song")
+				rows = result.fetchall()
+				d = []
+				for row in rows:
+					d.append(row[0])
+				db.close()
 
-			db = sql.connect("database.db")
-			db.execute("INSERT INTO song (name,sheet) VALUES (?,?)", (xdourl,ydourl,))
-			db.commit()
-			result = db.execute("SELECT id FROM song")
-			rows = result.fetchall()
-			d = []
-			for row in rows:
-				d.append(row[0])
-			db.close()
+				create_image(generate_pairs(x[9]+":"+x[5]),'img/'+str(d[len(d)-1])+'.jpg')
 
-			create_image(generate_pairs(xdourl+":"+ydourl),'img/'+str(d[len(d)-1])+'.jpg')
+			return "Música enviada com sucesso!"
 
-		return "Música enviada com sucesso!"
+		except Exception, e:
+			return "Error"
 
+	#http://localhost:2223/createInterpretation?registration=888888888&id=40&effects=none
 	#AlMOST DOnE. NEED DB INTERECTION.
 	@cherrypy.expose
 	def createInterpretation(self, **kw):
-		x = repr(dict(kw=kw))
-		x = x.split("'")
-		j = []
-		if(x[3] == "registration" and x[7] == "id" and x[11] == "effects"):
-			db = sql.connect("database.db")
-			result = db.execute("SELECT name,sheet FROM song WHERE id=?",(x[9],))
-			rows = result.fetchone()
-			db.commit()
-			db.close()
-			pauta = rows[0]+":"+rows[1]
-			filelocation = 'audio/'+x[9]+'.wav'
-			regist = x[5]
-			effect = x[13]
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			j = []
+			if(x[3] == "registration" and x[7] == "id" and x[11] == "effects"):
+				db = sql.connect("database.db")
+				result = db.execute("SELECT name,sheet FROM song WHERE id=?",(x[9],))
+				rows = result.fetchone()
+				db.commit()
+				db.close()
+				pauta = rows[0]+":"+rows[1]
+				filelocation = 'audio/'+x[9]+'.wav'
+				regist = x[5]
+				effect = x[13]
 
-			create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), 44100, effect)
-		return '''
-<audio controls>
-  <source src="audio/'''+x[9]+'''.wav" type="audio/ogg">
-Your browser does not support the audio element.
-</audio>'''
+				create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), 44100, effect)
+			return '''
+	<audio controls>
+	  <source src="audio/'''+x[9]+'''.wav" type="audio/ogg">
+	Your browser does not support the audio element.
+	</audio>'''
+		except Exception, e:
+			return "Error"
 
 	#DONE!
 	@cherrypy.expose
