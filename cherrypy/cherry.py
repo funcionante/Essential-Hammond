@@ -1,6 +1,12 @@
 #encoding:utf8
 import cherrypy
 import sqlite3 as sql
+from interpreter import generate_pairs, create_image
+from synthesizer import generate_sounds
+from effects_processor import create_wav_file
+###CONFIGS
+myport = 2223
+myaddress = '127.0.0.1'
 
 class Root(object):
 
@@ -27,37 +33,63 @@ class Root(object):
 			db = sql.connect("database.db")
 			db.execute("INSERT INTO song (name,sheet) VALUES (?,?)", (xdourl,ydourl,))
 			db.commit()
-			result = db.execute("SELECT * FROM song")
+			result = db.execute("SELECT id FROM song")
 			rows = result.fetchall()
 			d = []
 			for row in rows:
-				name = {"id":row[0],"name":row[1],"notes":row[2]}
-				d.append(name)
+				d.append(row[0])
 			db.close()
+
+			create_image(generate_pairs(xdourl+":"+ydourl),'img/'+str(d[len(d)-1])+'.jpg')
 
 		return "Música enviada com sucesso!"
 
-	#ALMOST DONE!
+	#AlMOST DOnE. NEED DB INTERECTION.
+	@cherrypy.expose
+	def createInterpretation(self, **kw):
+		x = repr(dict(kw=kw))
+		x = x.split("'")
+		j = []
+		if(x[3] == "registration" and x[7] == "id" and x[11] == "effects"):
+			db = sql.connect("database.db")
+			result = db.execute("SELECT name,sheet FROM song WHERE id=?",(x[9],))
+			rows = result.fetchone()
+			db.commit()
+			db.close()
+			pauta = rows[0]+":"+rows[1]
+			filelocation = 'audio/'+x[9]+'.wav'
+			regist = x[5]
+			effect = x[13]
+
+			create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), 44100, effect)
+		return '''
+<audio controls>
+  <source src="audio/'''+x[9]+'''.wav" type="audio/ogg">
+Your browser does not support the audio element.
+</audio>'''
+
+	#DONE!
 	@cherrypy.expose
 	def getWaveForm(self, **kw):
 		x = repr(dict(kw=kw))
 		x = x.split("'")
 		if (x[3] == "id"):
-			x = "http://localhost:2222/img/"+x[5]+".jpg"
+			x = "img/"+x[5]+".jpg"
 		else:
 			x = "None"
-		return x
+		raise cherrypy.HTTPRedirect(x) 
+		#return x
 
-	#ALMOST DONE!
+	#DONE!
 	@cherrypy.expose
 	def getWaveFile(self, **kw):
 		x = repr(dict(kw=kw))
 		x = x.split("'")
 		if (x[3] == "id"):
-			x = "http://localhost:2222/audio/"+x[5]+".wav"
+			x = "audio/"+x[5]+".wav"
 		else:
 			x = "None"
-		return x
+		raise cherrypy.HTTPRedirect(x)
 
 	#DONE!
 	@cherrypy.expose
@@ -127,8 +159,8 @@ class Root(object):
 	def upload(self):
 		return open("upload.html")
 
-cherrypy.config.update({'server.socket_host': '127.0.0.1',
-	'server.socket_port': 2222,
+cherrypy.config.update({'server.socket_host': myaddress,
+	'server.socket_port': myport,
 	})
 
 cherrypy.quickstart(Root(),'/','config.conf')
