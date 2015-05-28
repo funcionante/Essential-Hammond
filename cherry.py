@@ -18,7 +18,7 @@ class Root(object):
 	#DONE!
 	@cherrypy.expose
 	def index(self):
-		return open("index.html","r")
+		return open("App/index.html","r")
 
 	#http://localhost:8080/createSong?name=The%20Simpsons&notes=c.6,e6,f%236,8a6,g.6,e6,c6,8a,8f%23,8f%23,8f%23,2g,8p,8p,8f%23,8f%23,8f%23,8g,a%23.,8c6,8c6,8c6,c6
 	#DONE!
@@ -121,6 +121,10 @@ config = {
     'server.socket_host' : myaddress,
     'server.socket_port' : myport,
     'server.thread_pool' : 8
+  },
+  '/' : {
+    'tools.staticdir.on'            : True,
+    'tools.staticdir.dir'           : os.path.join(path, 'App'),
   },
   '/img' : {
     'tools.staticdir.on'            : True,
