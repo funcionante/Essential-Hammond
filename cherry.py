@@ -9,7 +9,7 @@ import os.path
 
 
 ###CONFIGS
-myport = 2223
+myport = 8080
 myaddress = '127.0.0.1'
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -46,7 +46,6 @@ class Root(object):
 			x = x.split("'")
 			j = []
 			if(x[3] == "registration" and x[7] == "id" and x[11] == "effects" and x[15] == "name"):
-				create_interpretation(x[5],x[13],x[9],x[17])
 				getno = get_notes_and_name(x[9])
 				pauta = getno[0] + ":" + getno[1]
 				filelocation = 'audio/'+str(last_id_interpretations())+'.wav'
@@ -54,6 +53,7 @@ class Root(object):
 				effect = x[13]
 
 				create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), 44100, effect)
+				create_interpretation(x[5],x[13],x[9],x[17])
 			return "Interpretação enviada com sucesso!"
 		except Exception, e:
 			return "Error"
@@ -61,37 +61,62 @@ class Root(object):
 	#DONE!
 	@cherrypy.expose
 	def getWaveForm(self, **kw):
-		x = repr(dict(kw=kw))
-		x = x.split("'")
-		if (x[3] == "id"):
-			x = "img/"+x[5]+".jpg"
-		else:
-			return "Error"
-		raise cherrypy.HTTPRedirect(x) 
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			if (x[3] == "id"):
+				x = "img/"+x[5]+".jpg"
+			else:
+				return "Error"
+			raise cherrypy.HTTPRedirect(x) 
+		except Exception, e:
+			return "Something went wrong"
 
 	#DONE! FALTA CHECK IF EXIST
 	@cherrypy.expose
 	def getWaveFile(self, **kw):
-		x = repr(dict(kw=kw))
-		x = x.split("'")
-		if (x[3] == "id"):
-			x = "audio/"+x[5]+".wav"
-		else:
-			return "Error"
-		raise cherrypy.HTTPRedirect(x)
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			if (x[3] == "id"):
+				x = "audio/"+x[5]+".wav"
+			else:
+				return "Error"
+			raise cherrypy.HTTPRedirect(x)
+		except Exception, e:
+			return "Something went wrong"
 
 	#DONE! FALTA CHECK IF EXIST
 	@cherrypy.expose
 	def getNotes(self, **kw):
-		x = repr(dict(kw=kw))
-		x = x.split("'")
-		ydourl = ""
-		row = ""
-		ydoy = x[3]
-		if(ydoy == "id"):
-			return get_notes(x[5])
-		else:
-			return "ERROR"
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			ydourl = ""
+			row = ""
+			ydoy = x[3]
+			if(ydoy == "id"):
+				return get_notes(x[5])
+			else:
+				return "ERROR"
+		except Exception, e:
+			return "Something went wrong"
+
+	@cherrypy.expose
+	@cherrypy.tools.json_out()
+	def listSongFiles(self, **kw):
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			ydourl = ""
+			row = ""
+			ydoy = x[3]
+			if(ydoy == "id"):
+				return get_songs(x[5])
+			else:
+				return "ERROR"
+		except Exception, e:
+			return "Something went wrong"
 
 	#DONE!
 	@cherrypy.expose
