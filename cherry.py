@@ -41,22 +41,22 @@ class Root(object):
 	#DONE!
 	@cherrypy.expose
 	def createInterpretation(self, **kw):
-		#try:
-		x = repr(dict(kw=kw))
-		x = x.split("'")
-		j = []
-		if(x[3] == "registration" and x[7] == "id" and x[11] == "effects" and x[15] == "name"):
-			create_interpretation(x[5],x[13],x[9],x[17])
-			getno = get_notes_and_name(x[9])
-			pauta = getno[0] + ":" + getno[1]
-			filelocation = 'audio/'+str(last_id_interpretations())+'.wav'
-			regist = x[5]
-			effect = x[13]
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			j = []
+			if(x[3] == "registration" and x[7] == "id" and x[11] == "effects" and x[15] == "name"):
+				create_interpretation(x[5],x[13],x[9],x[17])
+				getno = get_notes_and_name(x[9])
+				pauta = getno[0] + ":" + getno[1]
+				filelocation = 'audio/'+str(last_id_interpretations())+'.wav'
+				regist = x[5]
+				effect = x[13]
 
-			create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), 44100, effect)
-		return "Interpretação enviada com sucesso!"
-		#except Exception, e:
-		#	return "Error"
+				create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), 44100, effect)
+			return "Interpretação enviada com sucesso!"
+		except Exception, e:
+			return "Error"
 
 	#DONE!
 	@cherrypy.expose
