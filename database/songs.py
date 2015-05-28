@@ -110,17 +110,28 @@ def edit_interpretations(ID, registration, effects):
 	if  effects != '':
 		command = 'UPDATE interpretations SET effects = "' + effects + '" WHERE id = ' + ID
 		db.execute(command)
+		
+def get_songs(ID):
+	command = 'SELECT * FROM interpretations WHERE id_music = ' + ID
+	result = db.execute(command)
+	rows = result.fetchall()
+	d = []
+	for row in rows:
+		name = {"id":row[0],"id_music":row[1],"name":row[2],"registration":row[3],"effects":row[4],"upvotes":row[5],"downvotes":row[6]}
+		d.append(name)
+
+	return d
 
 #creates a new library database if there is no one. needs create.txt file to work properly.
-if not os.path.isfile('database/songs.db'):
+if not os.path.isfile('songs.db'):
 	
-	if not os.path.isfile('database/create.txt'):
+	if not os.path.isfile('create.txt'):
 		print 'We need a database to run the program. We don\'t have one, so we need a "create.txt" file to create the library. Copy a valid "create.txt" file to this folder and reopen the program.'
 		exit(1)
 		
-	db = sql.connect('database/songs.db')
+	db = sql.connect('songs.db')
 	
-	createDBfile = open('database/create.txt', 'r')
+	createDBfile = open('create.txt', 'r')
 	
 	for line in createDBfile:
 		db.execute(line)	
@@ -129,4 +140,4 @@ if not os.path.isfile('database/songs.db'):
 	createDBfile.close()
 	db.close()
 
-db = sql.connect('database/songs.db',check_same_thread=False)
+db = sql.connect('songs.db',check_same_thread=False)
