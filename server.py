@@ -4,7 +4,7 @@ import sqlite3 as sql
 from som.interpreter import generate_pairs, create_image
 from som.synthesizer import generate_sounds
 from som.effects_processor import create_wav_file
-from database.songs import *
+from songs import *
 import os.path
 
 
@@ -18,7 +18,7 @@ class Root(object):
 	#DONE!
 	@cherrypy.expose
 	def index(self):
-		return open("App/index.html","r")
+		return open("index.html","r")
 
 	#http://localhost:8080/createSong?name=The%20Simpsons&notes=c.6,e6,f%236,8a6,g.6,e6,c6,8a,8f%23,8f%23,8f%23,2g,8p,8p,8f%23,8f%23,8f%23,8g,a%23.,8c6,8c6,8c6,c6
 	#DONE!
@@ -52,7 +52,7 @@ class Root(object):
 				regist = x[5]
 				effect = x[13]
 
-				create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), 44100, effect)
+				create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), regist), effect)
 				create_interpretation(x[5],x[13],x[9],x[17])
 			return "Interpretação enviada com sucesso!"
 		except Exception, e:
@@ -147,9 +147,9 @@ config = {
     'server.socket_port' : myport,
     'server.thread_pool' : 8
   },
-  '/' : {
+  '/static' : {
     'tools.staticdir.on'            : True,
-    'tools.staticdir.dir'           : os.path.join(path, 'App'),
+    'tools.staticdir.dir'           : os.path.join(path, './public'),
   },
   '/img' : {
     'tools.staticdir.on'            : True,
