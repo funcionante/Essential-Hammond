@@ -1,0 +1,4 @@
+$.ajax({
+		type: 'GET',
+		url: '',
+	})
