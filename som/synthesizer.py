@@ -8,7 +8,9 @@ from interpreter import generate_pairs
 
 
 def generate_sounds(pairs, registration):
-
+	
+	print 'Synthesizer started. Generating sounds.'
+	
 	#dictio to be converted into json with all the samples of the music. pairs frequency-samples
 	sounds = []
 	
@@ -40,10 +42,12 @@ def generate_sounds(pairs, registration):
 			sample = 0
 			
 			for j in range(0, 9):
-				sample += int(amplitudes[j] * sin(2 * math.pi * freqs[j] * i / rate))
+				sample += int(amplitudes[j] * sin(2.0 * pi * freqs[j] * i / rate))
 			data.append(sample)
 		
 		sounds.append({'freq': mainfreq, 'samples': data})
+	
+	print 'Interpreter ended.'
 	
 	return sounds 
 		

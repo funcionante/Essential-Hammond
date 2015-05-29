@@ -29,6 +29,8 @@ def update_parameter(parameters, parameter, value):
 
 def generate_pairs(pauta):
 	
+	print 'Interpreter started. Generating pairs frequencies-notes.'
+	
 	#gets the name of the music
 	name = pauta[:pauta.find(':')]
 	
@@ -45,7 +47,7 @@ def generate_pairs(pauta):
 	o = update_parameter(parameters, 'o=', 6)
 	b = update_parameter(parameters, 'b=', 63)
 	
-	print ('parameters: %d, %d, %d') % (d, o, b)
+	#print ('parameters: %d, %d, %d') % (d, o, b)
 	
 	#gets the list of frequencies (lookup table)
 	freqs = get_freqs()
@@ -68,7 +70,7 @@ def generate_pairs(pauta):
 		else:
 			note = notes
 		
-		print "note: " + note
+		#print "note: " + note
 		
 		#initializes the variables
 		i = 0 #index of string note
@@ -178,7 +180,7 @@ def generate_pairs(pauta):
 		if fifty:
 			time *= 1.5
 				
-		print ('time: %f') % time
+		#print ('time: %f') % time
 		
 		#calculates the frequency
 		if tone != 77:
@@ -186,7 +188,7 @@ def generate_pairs(pauta):
 		else:
 			freq = 0
 			
-		print ('freq: %f') % freq
+		#print ('freq: %f') % freq
 		
 		#adds the pair
 		pairs.append({'time': time, 'freq': freq})
@@ -196,10 +198,14 @@ def generate_pairs(pauta):
 		else:
 			break
 	
+	print 'Interpreter ended.'
+	
 	return pairs
 	
 #creates an image with a view of the notes contained in the pairs freq-time given
 def create_image(pairs, name):
+	
+	print 'Creating image named ' + name + '.'
 	
 	#because frequencies are not linear, we will need the lookup table
 	#to do the opposite: getting the index by a frequency we have.
@@ -242,6 +248,8 @@ def create_image(pairs, name):
 		startx = endx
 		
 	im.save(name)
+	
+	print 'Image created.'
 	
 	
 
