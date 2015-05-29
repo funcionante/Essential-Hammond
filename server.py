@@ -4,7 +4,7 @@ import sqlite3 as sql
 from som.interpreter import generate_pairs, create_image
 from som.synthesizer import generate_sounds
 from som.effects_processor import create_wav_file
-from songs import *
+from database import *
 import os.path
 
 
