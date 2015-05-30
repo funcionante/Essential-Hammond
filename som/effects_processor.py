@@ -78,8 +78,22 @@ def effect_distortion(data, sounds):
 		data[i] += pow(data[i], 2)
 
 	return data
+	
+def effect_chorus(data, sounds):
+	
+	for sound in sounds:
+		
+		subdata = sound['samples']
+		subdata = normalize(subdata)
+		
+		freq = sound['freq'] + 50
+		
+		for i in range(0, len(subdata)):
+		#for sample in data:
+			subdata[i] += int(32000 * sin(2.0 * pi * freq * i / rate))
+		data += subdata
 
-
+	return data
 
 def create_wav_file(fname, sounds, effect='none'):
 	
@@ -99,6 +113,9 @@ def create_wav_file(fname, sounds, effect='none'):
 	
 	elif effect == 'distortion':
 		data = effect_distortion(data, sounds)
+		
+	elif effect == 'chorus':
+		data = effect_chorus(data, sounds)
 	
 	# applies null effect in the other cases, including when effect = 'nono', as intended	
 	else:
@@ -124,4 +141,4 @@ if __name__ == '__main__':
 	
 	sounds = generate_sounds(pairs, '888888888')
 	
-	create_wav_file('test.wav', sounds, 44100, 'echo')
+	create_wav_file('test.wav', sounds, 'echo')

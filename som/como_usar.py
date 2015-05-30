@@ -32,7 +32,7 @@ pairs = json.loads(content)
 sounds = generate_sounds(pairs, '888888888')
 
 #sintetizador ====> processador de efeitos
-create_wav_file('test1.wav', sounds, 44100, 'none')
+create_wav_file('test1.wav', sounds, 'none')
 
 
 ##############################################
@@ -41,13 +41,13 @@ create_wav_file('test1.wav', sounds, 44100, 'none')
     
 pairs = generate_pairs(pauta2)
 sounds = generate_sounds(pairs, '888888888')
-create_wav_file('test2.wav', sounds, 44100, 'none')
+create_wav_file('test2.wav', sounds, 'none')
 
 ##############################################
 #            ou ainda (à pro):               #
 ##############################################
 
-create_wav_file('test3.wav', generate_sounds(generate_pairs(pauta3), '888888888'), 44100, 'echo')
+create_wav_file('test3.wav', generate_sounds(generate_pairs(pauta3), '888888888'), 'echo')
 
 ##############################################
 #    para gerar uma imagem de uma música:    #

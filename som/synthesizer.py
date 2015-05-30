@@ -31,7 +31,7 @@ def generate_sounds(pairs, registration):
 		
 		for i in range(0, 9):
 			freqs[i] = int(mainfreq * ratio[i])
-			amplitudes[i] = float(registration[i]) / 8 * 2000
+			amplitudes[i] = float(registration[i]) / 8 * (32000/9.0)
 		
 		data = []
 		
