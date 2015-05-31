@@ -27,6 +27,7 @@ def update_parameter(parameters, parameter, value):
 	
 	return int(value)
 
+#produces the pairs frequency-duration
 def generate_pairs(pauta):
 	
 	print 'Interpreter started. Generating pairs frequencies-notes.'
@@ -206,6 +207,67 @@ def generate_pairs(pauta):
 def create_image(pairs, name):
 	
 	print 'Creating image named ' + name + '.'
+		
+	#height is 1000 + margins + width of line. 
+	height = 1000 + 20 + 20 + 3
+	
+	#width will be defined bt the total duration of the music + margins. Each second is 100 pixels.
+	width = 20 + 20
+	for pair in pairs:
+		width += int(100 * pair['time'])
+	
+	#new image in black and white mode, and colored in white by default
+	im = Image.new('1', (width, height), 1)
+	
+	#these are the variables used to define the limites where the lines (that represents the notes) will be written (pixels in black)
+	startx = 20
+	starty = 20
+	endx = 20
+	endy = 20
+	
+	#variables that will save the min and max y where a line is written
+	#so we can know the limits where the image will be cropped in the end
+	
+	miny = height
+	maxy = 0
+	
+	for pair in pairs:
+		endx += int(100 * pair['time'])
+		
+		freq = pair['freq']
+		
+		if freq != 0:
+			
+			starty = height - (1000*freq/3951) - 3 - 20
+			endy = starty + 3
+		
+			for x in range(startx, endx):
+				for y in range(starty, endy):
+					pixel = 0 #black pixel to color de line
+					im.putpixel( (x,y), pixel)
+					
+					if y < miny:
+						miny = y
+					if y > maxy:
+						maxy = y
+		
+		startx = endx		
+	
+	#redefines the limits according to the margins
+	miny -= 20
+	maxy += 20
+	
+	#crops the image
+	im = im.crop((0, miny, width, maxy))
+		
+	im.save(name)
+	
+	print 'Image created.'
+	
+#creates an image with a view of the notes contained in the pairs freq-time given
+def create_image2(pairs, name):
+	
+	print 'Creating image named ' + name + '.'
 	
 	#because frequencies are not linear, we will need the lookup table
 	#to do the opposite: getting the index by a frequency we have.
@@ -251,8 +313,7 @@ def create_image(pairs, name):
 	
 	print 'Image created.'
 	
-	
-
+#just for tests
 if __name__ == '__main__':
 	
 	pauta = 'The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6'

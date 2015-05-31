@@ -11,6 +11,25 @@ from synthesizer import generate_sounds
 
 rate = 44100
 
+#returns a list that contains the multiples ([0,1]) to apply to the amplitudes with the envelope effect
+def get_env():
+	env = [None] * 200
+
+	env[0] = 0
+
+	for x in range(1, 200):
+		
+		if x < 20:
+			env[x] = env[x-1] + 0.28/x
+		elif x < 60:
+			env[x] = env[x-1] - 0.115/(x-19)
+		elif x < 160:
+			env[x] = env[x-1]
+		else:
+			env[x] = env[x-1] - 0.117/(x-159)
+			
+	return env
+
 #returns the positive part of a value
 def module(value):
 	if value < 0:
@@ -61,6 +80,7 @@ def effect_echo(data, sounds):
 
 	return data
 
+#applies tremolo effect and returns the samples
 def effect_tremolo(data, sounds):
 	
 	data = effect_none(data, sounds)
@@ -69,7 +89,8 @@ def effect_tremolo(data, sounds):
 		data[i] += 0.3 * sin(2.0 * pi * 20 * i / rate) * data[i];
 
 	return data
-	
+
+#applies distortion effect and returns the samples	
 def effect_distortion(data, sounds):
 	
 	data = effect_none(data, sounds)
@@ -78,7 +99,8 @@ def effect_distortion(data, sounds):
 		data[i] += pow(data[i], 2)
 
 	return data
-	
+
+#applies chorus effect and returns the samples	
 def effect_chorus(data, sounds):
 	
 	for sound in sounds:
@@ -95,6 +117,23 @@ def effect_chorus(data, sounds):
 
 	return data
 
+#applies envelope effect and returns the samples
+def effect_envelope(data, sounds):
+	
+	env = get_env()
+	
+	for sound in sounds:
+		
+		subdata = sound['samples']
+		
+		for i in range(0, len(subdata)):
+			subdata[i] *= env[200 * i / len(subdata)]
+			
+		data += subdata
+	
+	return data
+
+#creates a wav file based on the file name, sounds and effect given
 def create_wav_file(fname, sounds, effect='none'):
 	
 	print 'Effects processor started. Generating wav file named ' + fname + ' with ' + effect + ' effect.'
@@ -116,6 +155,9 @@ def create_wav_file(fname, sounds, effect='none'):
 		
 	elif effect == 'chorus':
 		data = effect_chorus(data, sounds)
+		
+	elif effect == 'envelope':
+		data = effect_envelope(data, sounds)
 	
 	# applies null effect in the other cases, including when effect = 'nono', as intended	
 	else:
@@ -132,7 +174,7 @@ def create_wav_file(fname, sounds, effect='none'):
 	
 	print 'Effects processor ended.'
 
-
+#just for tests
 if __name__ == '__main__':
 	
 	pauta = 'The Simpsons:d=4,o=5,b=160:c.6,e6,f#6,8a6,g.6,e6,c6,8a,8f#,8f#,8f#,2g,8p,8p,8f#,8f#,8f#,8g,a#.,8c6,8c6,8c6,c6'
