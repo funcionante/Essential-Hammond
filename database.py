@@ -107,20 +107,21 @@ def get_songs(ID):
 	return d
 	
 def add_upvotes(ID):
-	
-	command = 'SELECT upvotes FROM interpretations WHERE id = ' + ID
-	result = db.execute(command) 
-	result = result.fectone()[0] + 1
-	command = 'UPDATE interpretations SET upvotes = "' + result + '" WHERE id = ' + ID
+	command = 'SELECT upvotes FROM interpretations WHERE id = ' + str(ID)
+	result = db.execute(command)
+	result = result.fetchone()
+	result = result[0] + 1
+	command = 'UPDATE interpretations SET upvotes = "' + str(result) + '" WHERE id = ' + str(ID)
 	db.execute(command)
 	db.commit()
 	
 
 def add_downvotes(ID):
-	command = 'SELECT downvotes FROM interpretations WHERE id = ' + ID
-	result = db.execute(command) 
-	result = result.fectone()[0] + 1
-	command = 'UPDATE interpretations SET downvotes = "' + result + '" WHERE id = ' + ID
+	command = 'SELECT downvotes FROM interpretations WHERE id = ' + str(ID)
+	result = db.execute(command)
+	result = result.fetchone()
+	result = result[0] + 1
+	command = 'UPDATE interpretations SET downvotes = "' + str(result) + '" WHERE id = ' + str(ID)
 	db.execute(command)
 	db.commit()
 
