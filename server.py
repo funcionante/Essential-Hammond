@@ -158,7 +158,7 @@ class Root(object):
 	@cherrypy.expose
 	def allmusic(self):
 		return open("allmusic.html","r")
-
+ 
 	#JUST FOR TEST
 	@cherrypy.expose
 	def upload(self):
