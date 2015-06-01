@@ -52,28 +52,20 @@ def create_interpretation(registration, effects,id_music,name):
 	
 	command = 'INSERT INTO interpretations(id_music,name,registration, effects) VALUES("' + id_music + '","' + name + '","' + registration + '", "' + effects + '")'
 	db.execute(command)
-	db.commit();
+	db.commit()
 
 def get_interpretations():
 	
 	command = 'SELECT * FROM interpretations'
 	db.execute(command)
-	db.commit();
+
 	
 def list_songs(music):
 	
 	print ' ID / NAME / NOTES '
 	for row in musics:
 		print "%s / %s / %s".format(row[0], row[1], row[2]) 
-	
-	
-'''def listSongs(interpretations):
-	
-	print 'ID / ID_MUSIC / REGISTRATIONS / EFFECTS / UPVOTES / DOWNVOTES'
-	for row in interpretations:
-		print "%s / %s / %s / %s / %s / %s ".format(row[0], row[1], row[2], row[3], row[4], row[5])'''
-		
-#def listSongFiles():
+
 
 def get_notes(ID):
 	command = 'SELECT notes FROM musics WHERE id =' + ID
@@ -84,14 +76,6 @@ def get_notes_and_name(ID):
 	command = 'SELECT name,notes FROM musics WHERE id =' + ID
 	result = db.execute(command)
 	return result.fetchone()
-
-#def get_waveFile():
-
-#def get_waveForm():
-
-'''   def get_interpretations_by_music_id(ID):
-	command = 'SELECT FROM interpretations, musics WHERE '  '''
-	
 	
 def edit_musics(ID, name, notes):
 	if name != '':
@@ -121,6 +105,25 @@ def get_songs(ID):
 		d.append(name)
 
 	return d
+	
+def add_upvotes(ID):
+	
+	command = 'SELECT upvotes FROM interpretations WHERE id = ' + ID
+	result = db.execute(command) 
+	result = result.fectone()[0] + 1
+	command = 'UPDATE interpretations SET upvotes = "' + result + '" WHERE id = ' + ID
+	db.execute(command)
+	db.commit()
+	
+
+def add_downvotes(ID):
+	command = 'SELECT downvotes FROM interpretations WHERE id = ' + ID
+	result = db.execute(command) 
+	result = result.fectone()[0] + 1
+	command = 'UPDATE interpretations SET downvotes = "' + result + '" WHERE id = ' + ID
+	db.execute(command)
+	db.commit()
+
 
 #creates a new library database if there is no one. needs create.txt file to work properly.
 if not os.path.isfile('songs.db'):
