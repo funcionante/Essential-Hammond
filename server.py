@@ -15,6 +15,30 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 
 class Root(object):
 
+	@cherrypy.expose
+	def addVote(self, **kw):
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			if (x[3] == "id"):
+				add_upvotes(x[5])
+			else:
+				return "Error"
+		except Exception, e:
+			return "Something went wrong"
+
+	@cherrypy.expose
+	def delVote(self, **kw):
+		try:
+			x = repr(dict(kw=kw))
+			x = x.split("'")
+			if (x[3] == "id"):
+				add_downvotes(x[5])
+			else:
+				return "Error"
+		except Exception, e:
+			return "Something went wrong"
+
 	#DONE!
 	@cherrypy.expose
 	def index(self):
@@ -68,9 +92,9 @@ class Root(object):
 				x = "img/"+x[5]+".jpg"
 			else:
 				return "Error"
-			raise cherrypy.HTTPRedirect(x) 
 		except Exception, e:
 			return "Something went wrong"
+		raise cherrypy.HTTPRedirect(x)
 
 	#DONE! FALTA CHECK IF EXIST
 	@cherrypy.expose
@@ -82,9 +106,9 @@ class Root(object):
 				x = "audio/"+x[5]+".wav"
 			else:
 				return "Error"
-			raise cherrypy.HTTPRedirect(x)
 		except Exception, e:
 			return "Something went wrong"
+		raise cherrypy.HTTPRedirect(x)
 
 	#DONE! FALTA CHECK IF EXIST
 	@cherrypy.expose

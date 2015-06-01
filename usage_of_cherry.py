@@ -42,3 +42,9 @@
 #Obter musicas de uma pauta (id da pauta)
 #http://localhost:8080/listSongFiles?id=1
 #Devolve o seguinte: [{"name": "LOL", "id_music": 1, "downvotes": null, "effects": "none", "registration": 888888888, "upvotes": null, "id": 1}, {"name": "LOLECHO", "id_music": 1, "downvotes": null, "effects": "echo", "registration": 888888888, "upvotes": null, "id": 3}]
+
+#Votes
+#funtions :
+#	-	/delVote?id=1 (intertation ID)
+#	-	/addVote?id=1 (intertation ID)
+#	-	/listSong (tem la o downvotes e upvotes)
