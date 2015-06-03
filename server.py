@@ -10,7 +10,7 @@ import os.path
 
 ###CONFIGS
 myport = 8080
-myaddress = '127.0.0.1'
+myaddress = '0.0.0.0'
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 class Root(object):

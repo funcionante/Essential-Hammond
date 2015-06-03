@@ -1,5 +1,33 @@
 function refreshJSON () {
     location.reload();
+
+    $.ajax({
+	type: 'GET',
+	url: '/listNotes',
+	success: function(notes){
+		var $notesInt = $('#notesInt');
+		//var $notesPlay = $('#notesPlay');
+		x = notes[0].name;
+		for (var i = 0; i < notes.length; i++) {
+			$notesInt.append('<option value="'+notes[i].id+'">'+notes[i].name+'</option>');
+			//$notesPlay.append('<option value="'+i+'">'+notes[i].name+'</option>');
+		};
+	}
+});
+
+$.ajax({
+	type: 'GET',
+	url: '/listSongs',
+	success: function(notes){
+		//var $notesInt = $('#notesInt');
+		var $notesPlay = $('#notesPlay');
+		x = notes[0].name;
+		for (var i = 0; i < notes.length; i++) {
+			//$notesInt.append('<option value="'+i+'">'+notes[i].name+'</option>');
+			$notesPlay.append('<option value="'+notes[i].id+'">'+notes[i].name+'</option>');
+		};
+	}
+});
 }
 
 
@@ -8,11 +36,25 @@ $.ajax({
 	url: '/listNotes',
 	success: function(notes){
 		var $notesInt = $('#notesInt');
+		//var $notesPlay = $('#notesPlay');
+		x = notes[0].name;
+		for (var i = 0; i < notes.length; i++) {
+			$notesInt.append('<option value="'+notes[i].id+'">'+notes[i].name+'</option>');
+			//$notesPlay.append('<option value="'+i+'">'+notes[i].name+'</option>');
+		};
+	}
+});
+
+$.ajax({
+	type: 'GET',
+	url: '/listNotes',
+	success: function(notes){
+		//var $notesInt = $('#notesInt');
 		var $notesPlay = $('#notesPlay');
 		x = notes[0].name;
 		for (var i = 0; i < notes.length; i++) {
-			$notesInt.append('<option value="'+i+'">'+notes[i].name+'</option>');
-			$notesPlay.append('<option value="'+i+'">'+notes[i].name+'</option>');
+			//$notesInt.append('<option value="'+i+'">'+notes[i].name+'</option>');
+			$notesPlay.append('<option value="'+notes[i].id+'">'+notes[i].name+'</option>');
 		};
 	}
 });
