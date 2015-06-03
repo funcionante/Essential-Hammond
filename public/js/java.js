@@ -25,10 +25,13 @@ function addNote() {
 	var all = all.split(":");
 	var name = all[0];
 	var notas = all[1]+":"+all[2];
-	//document.getElementById("name").value = name;
-	//document.getElementById("notes").value = notas;
 	var x = "name="+encodeURIComponent(name)+"&notes="+encodeURIComponent(notas);
-	//window.location.replace("/#mineStuff");
-	$.post("createSong",x);
-	window.location.replace("/#playSong");
+	$.post("createSong",x,function(response){
+		if(response == "Sucess"){
+			document.getElementById("himynameis").innerHTML = "Sucess!";
+		}
+		else{
+			document.getElementById("himynameis").innerHTML = "Error!";
+		}
+	});
 }

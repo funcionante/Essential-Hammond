@@ -29,13 +29,11 @@
 				<h1>Adicionar Música</h1>
 				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" onclick="refreshJSON()" role="button">Refresh</a>
 			</div>
-			<div data-role="main" class="ui-content">
-				<form onsubmit="addNote()">
+			<div data-role="main" class="ui-content" id="himynameis">
+				<form>
 					<label for="text-basic">Código:</label>
 					<textarea cols="40" rows="8" id="text"></textarea>
-					<!--<input type="hidden" id="name" name="name" value=""><br>
-					<input type="hidden" id="notes" name="notes" value=""><br>-->
-					<button class="ui-shadow ui-btn ui-corner-all ui-btn-inline" type="submit" id="submit-2">Enviar</button>
+					<a class="ui-shadow ui-btn ui-corner-all ui-btn-inline" onclick="addNote()" id="submit-2">Enviar</a>
 				</form>
 			</div>
 			<div data-role="footer" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">

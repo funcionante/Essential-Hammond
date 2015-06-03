@@ -44,10 +44,9 @@ class Root(object):
 			create_song(name, notes)
 
 			create_image(generate_pairs(name+':'+notes),'img/'+str(last_id())+'.jpg')
-
+			return "Sucess"
 		except Exception, e:
 			return "Something went wrong"
-		#raise cherrypy.HTTPRedirect("/#playSong")
 
 	@cherrypy.expose
 	def createInterpretation(self, registration = None, id = None, effects = None, name = None):
