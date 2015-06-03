@@ -35,6 +35,22 @@ class Root(object):
 	@cherrypy.expose
 	def index(self):
 		return open("index.html","r")
+	
+	@cherrypy.expose
+	def deskindex(self):
+		return open("deskindex.html","r")
+	
+	@cherrypy.expose
+	def novamusica(self):
+		return open("desknovamusica.html","r")
+	
+	@cherrypy.expose
+	def novainterpretacao(self):
+		return open("desknovainterpretacao.html","r")
+	
+	@cherrypy.expose
+	def tocarmusica(self):
+		return open("desktocarmusica.html","r")
 
 	@cherrypy.expose
 	def createSong(self, name=None, notes=None):
@@ -135,6 +151,10 @@ config = {
   '/static' : {
     'tools.staticdir.on'            : True,
     'tools.staticdir.dir'           : os.path.join(path, './public'),
+  },
+  '/desk' : {
+    'tools.staticdir.on'            : True,
+    'tools.staticdir.dir'           : os.path.join(path, 'desk'),
   },
   '/img' : {
     'tools.staticdir.on'            : True,
