@@ -47,7 +47,7 @@ class Root(object):
 
 		except Exception, e:
 			return "Something went wrong"
-		raise cherrypy.HTTPRedirect("/#playSong")
+		#raise cherrypy.HTTPRedirect("/#playSong")
 
 	@cherrypy.expose
 	def createInterpretation(self, registration = None, id = None, effects = None, name = None):

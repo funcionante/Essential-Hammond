@@ -25,7 +25,10 @@ function addNote() {
 	var all = all.split(":");
 	var name = all[0];
 	var notas = all[1]+":"+all[2];
-	document.getElementById("name").value = name;
-	document.getElementById("notes").value = notas;
-	window.location.replace("createSong?name="+name+"&notes="+notas);
+	//document.getElementById("name").value = name;
+	//document.getElementById("notes").value = notas;
+	var x = "name="+encodeURIComponent(name)+"&notes="+encodeURIComponent(notas);
+	//window.location.replace("/#mineStuff");
+	$.post("createSong",x);
+	window.location.replace("/#playSong");
 }
