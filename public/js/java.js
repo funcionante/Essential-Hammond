@@ -45,7 +45,7 @@ function addNote() {
 	$.post("createSong",x,function(response){
 		console.log(response);
 		if(response == "Sucess"){
-			document.getElementById("himynameis").innerHTML = "Sucess!";
+			document.getElementById("himynameis").innerHTML = "Musica enviada com sucesso!";
 		}
 		else{
 			document.getElementById("himynameis").innerHTML = "Error!";
@@ -54,10 +54,18 @@ function addNote() {
 }
 
 function addMusic () {
-	var id = document.getElementById("notesInt").selectedIndex;
-	var registo = document.getElementById("registo");
-	var efeito = document.getElementById("efeito").selectedIndex;
-	var nome = document.getElementById("nome");
+	var id = document.getElementById("notesInt").value;
+	var registo = document.getElementById("registo").value;
+	var efeito = document.getElementById("efeito").value;
+	var nome = document.getElementById("nome").value;
 	var x = "registration="+registo+"&id="+id+"&effects="+efeito+"&name=+"+nome;
 
+	$.post("createInterpretation",x,function(response){
+		if(response == "Sucess"){
+			document.getElementById("himynameis2").innerHTML = "Musica enviada com sucesso!";
+		}
+		else{
+			document.getElementById("himynameis2").innerHTML = "Error!";
+		}
+	});
 }

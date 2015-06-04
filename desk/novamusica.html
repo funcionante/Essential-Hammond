@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Nova Interpretação</title>
+    <title>Nova Música</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="desk/css/bootstrap.min.css" rel="stylesheet">
@@ -34,15 +34,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="deskindex">Proj2App</a>
+                <a class="navbar-brand" href="/">Proj2App</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="active">
                         <a href="novamusica">Nova Música</a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="novainterpretacao">Nova Interpretação</a>
                     </li>
                     <li>
@@ -61,46 +61,16 @@
         <div class="row">
 
         <div class="page-header">
-              <h1>Adicionar nova interpretação</h1>
+              <h1>Adicionar nova música</h1>
         </div>
 
         <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="basic-addon1">Nome pretendido</span>
-            <input id="name" type="text" class="form-control" placeholder="The Simpsons Rock Style" aria-describedby="basic-addon1">
+            <span class="input-group-addon" id="basic-addon1">Pauta</span>
+            <input id="code" type="text" class="form-control" placeholder="The Simpsons : d=4, o=5, b=160 : c.6, e6, f#6, 8a6, g.6, e6, c6, 8a, 8f#, 8f#, 8f#, 2g, 8p, 8p, 8f#, 8f#, 8f#, 8g, a#., 8c6, 8c6, 8c6, c6" aria-describedby="basic-addon1">
         </div>
 
         <br>
-        
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="basic-addon1">Música</span>
-            <select id="noteslist" class="form-control">
-            </select>
-        </div>
-
-        <br>
-
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="basic-addon1">Efeito</span>
-            <select id="efeitos" class="form-control">
-                <option value="none" >Nenhum</option>
-                <option value="echo">Eco</option>
-                <option value="tremolo">Trémolo</option>
-                <option value="distortion">Distorção</option>
-                <option value="percursion">Percursão</option>
-                <option value="chorus">Coro</option>
-                <option value="envelope">Envelope</option>
-            </select>
-        </div>
-
-        <br>
-
-        <div class="input-group input-group-lg">
-            <span class="input-group-addon" id="basic-addon1">Registo</span>
-            <input id="registration" type="text" class="form-control" placeholder="888888888" aria-describedby="basic-addon1">
-        </div>
-
-        <br>
-        <p><a id="send-interpretation" class="btn btn-primary btn-lg" role="button">Enviar interpretação</a><span id="alerts"></span></p>
+        <p><a id="send-song" class="btn btn-primary btn-lg" role="button">Enviar música</a><span id="alerts"></span></p>
 
         <div ></div>
 

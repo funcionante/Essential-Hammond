@@ -37,23 +37,29 @@ class Root(object):
 		if(is_mobile(cherrypy.request) == "True"):
 			return open("index.html","r")
 		else:
-			return open("deskindex.html","r")
+			return open("desk/index.html","r")
 	
-	@cherrypy.expose
-	def deskindex(self):
-		return open("deskindex.html","r")
 	
 	@cherrypy.expose
 	def novamusica(self):
-		return open("desknovamusica.html","r")
+		if(is_mobile(cherrypy.request) == "True"):
+			return open("index.html","r")
+		else:
+			return open("desk/novamusica.html","r")
 	
 	@cherrypy.expose
 	def novainterpretacao(self):
-		return open("desknovainterpretacao.html","r")
+		if(is_mobile(cherrypy.request) == "True"):
+			return open("index.html","r")
+		else:
+			return open("desk/interpretacao.html","r")
 	
 	@cherrypy.expose
 	def tocarmusica(self):
-		return open("desktocarmusica.html","r")
+		if(is_mobile(cherrypy.request) == "True"):
+			return open("index.html","r")
+		else:
+			return open("desk/tocarmusica.html","r")
 
 	@cherrypy.expose
 	def createSong(self, name=None, notes=None):
@@ -69,17 +75,17 @@ class Root(object):
 
 	@cherrypy.expose
 	def createInterpretation(self, registration = None, id = None, effects = None, name = None):
-		try:
-			create_interpretation(registration,effects,id,name)
-			getno = get_notes_and_name(id)
-			pauta = getno[0] + ":" + getno[1]
-			filelocation = 'audio/'+str(last_id_interpretations())+'.wav'
+		#try:
+		create_interpretation(registration,effects,id,name)
+		getno = get_notes_and_name(id)
+		pauta = getno[0] + ":" + getno[1]
+		filelocation = 'audio/'+str(last_id_interpretations())+'.wav'
 
-			create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), registration), effects)
+		create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), registration), effects)
 
-			return "Interpretação enviada com sucesso!"
-		except Exception, e:
-			return "Something went wrong"
+		return "Sucess"
+		#except Exception, e:
+		#	return "Something went wrong"
 
 	@cherrypy.expose
 	def getWaveForm(self, id=None):
