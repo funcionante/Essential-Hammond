@@ -5,7 +5,7 @@ import os.path
 import re
 
 def is_mobile(request):
-    ismobile = "False"
+    ismobile = False
 
     if request.headers.has_key('User-Agent'):
         user_agent = request.headers['User-Agent']
@@ -17,7 +17,7 @@ def is_mobile(request):
         match = patt_compiled.search(user_agent)
 
         if match:
-           ismobile = "True"
+           ismobile = True
 
     return ismobile
 

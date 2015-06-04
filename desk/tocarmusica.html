@@ -72,7 +72,7 @@
       <div class="col-md-9">
 
         <div class="thumbnail">
-        <img class="img-responsive" src="img/2.jpg" alt="">
+        <img class="img-responsive" src="img/1.jpg" alt="">
           <div class="caption-full">
             <h4><a href="#">Música 1</a>
             </h4>
@@ -92,17 +92,17 @@
                   </div>
                 </div>
                 <span><b>Registo:</b> <span>888888888</span></span>
-                <button type="button" class="btn btn-default btn-sm pull-right">
+                <button type="button" class="btn btn-default btn-sm pull-right" onclick="addVote(1)">
                   <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                 </button>
 
-                <button type="button" class="btn btn-default btn-sm pull-right">
+                <button type="button" class="btn btn-default btn-sm pull-right" onclick="delVote(1)">
                   <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                 </button>
-                <p><b>Efeito:</b> <span>Chorus</span></p>
+                <p><b>Efeito:</b> <span>Nenhum</span></p>
 
                 <audio class="player" controls>
-                  <source src="horse.mp3" type="audio/mpeg">
+                  <source src="audio/1.wav" type="audio/wav">
                     Não foi possível reproduzir a música.
                   </audio>
                 </div>
@@ -120,17 +120,17 @@
                     </div>
                   </div>
                   <span><b>Registo:</b> <span>888888888</span></span>
-                  <button type="button" class="btn btn-default btn-sm pull-right">
+                  <button type="button" class="btn btn-default btn-sm pull-right" onclick="addVote(2)">
                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                   </button>
 
-                  <button type="button" class="btn btn-default btn-sm pull-right">
+                  <button type="button" class="btn btn-default btn-sm pull-right" onclick="delVote(2)">
                     <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                   </button>
                   <p><b>Efeito:</b> <span>Chorus</span></p>
 
                   <audio class="player" controls>
-                    <source src="horse.mp3" type="audio/mpeg">
+                    <source src="audio/2.wav" type="audio/wav">
                       Não foi possível reproduzir a música.
                     </audio>
                   </div>
@@ -148,17 +148,17 @@
                       </div>
                     </div>
                     <span><b>Registo:</b> <span>888888888</span></span>
-                    <button type="button" class="btn btn-default btn-sm pull-right">
+                    <button type="button" class="btn btn-default btn-sm pull-right" onclick="addVote(3)">
                       <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                     </button>
 
-                    <button type="button" class="btn btn-default btn-sm pull-right">
+                    <button type="button" class="btn btn-default btn-sm pull-right" onclick="delVote(3)">
                       <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                     </button>
-                    <p><b>Efeito:</b> <span>Chorus</span></p>
+                    <p><b>Efeito:</b> <span>Envelope</span></p>
 
                     <audio class="player" controls>
-                      <source src="horse.mp3" type="audio/mpeg">
+                      <source src="audio/3.wav" type="audio/wav">
                         Não foi possível reproduzir a música.
                       </audio>
                     </div>
@@ -196,6 +196,9 @@
 
         <!-- Bootstrap Core JavaScript -->
         <script src="desk/js/bootstrap.min.js"></script>
+
+        <!-- Scripts -->
+        <script src="desk/js/scripts.js"></script>
 
       </body>
 

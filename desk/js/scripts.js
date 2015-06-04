@@ -1,3 +1,15 @@
+function addVote(x){
+    $.post("addVote","id="+x,function(response){
+        console.log(response);
+    });
+}
+
+function delVote(x){
+    $.post("delVote","id="+x,function(response){
+        console.log(response);
+    });
+}
+
 $(function(){
     //function to send a song to the server
     $('#send-song').on('click', function(){
@@ -15,7 +27,7 @@ $(function(){
             notes: notes,
         };
 
-        $.ajax({
+        /*$.ajax({
             type: 'POST',
             url: 'createSong',
             data: song,
@@ -23,7 +35,19 @@ $(function(){
                 $alerts.append('<div class="alert alert-success pull-right" role="alert">Música enviada com sucesso!</div>'); //add a succss alert
                 $code.val(""); //cleans the input area
             }
-        })
+        })*/
+
+        $.post("createSong",song,function(response){
+            console.log(response);
+            if(response == "Sucess"){
+                $alerts.append('<div class="alert alert-success pull-right" role="alert">Música enviada com sucesso!</div>'); //add a succss alert
+                $code.val(""); //cleans the input area
+            }
+            else{
+                $alerts.append('<div class="alert alert-success pull-right" role="alert">ERRRRRRRROR!</div>'); //add a succss alert
+                $code.val(""); //cleans the input area
+            }
+        });
     });
 
     //function to send a interpretation to the server
@@ -50,7 +74,21 @@ $(function(){
             registration: $registration.val(),
         };
 
-        $.ajax({
+        $.post("createInterpretation",interpretation,function(response){
+            console.log(response);
+            if(response == "Sucess"){
+                $alerts.append('<div class="alert alert-success pull-right" role="alert">Interpretação enviada com sucesso!</div>'); //add a succss alert
+                $name.val(""); //cleans the input area
+                $registration.val("");
+            }
+            else{
+                $alerts.append('<div class="alert alert-success pull-right" role="alert">ERRRRROR!</div>'); //add a succss alert
+                $name.val(""); //cleans the input area
+                $registration.val("");
+            }
+        });
+
+        /*$.ajax({
             type: 'POST',
             url: 'createInterpretation',
             data: interpretation,
@@ -59,7 +97,7 @@ $(function(){
                 $name.val(""); //cleans the input area
                 $registration.val("");
             }
-        })
+        })*/
     });
 
 

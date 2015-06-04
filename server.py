@@ -15,26 +15,33 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 
 class Root(object):
 
+	#This function receives ID that belongs to interpretations table and increment by 1 upvote field.
+	#In case of bad ID (wrong or does not exist) will return "Something went wrong".
 	@cherrypy.expose
 	def addVote(self, id=None):
 		try:
 			add_upvotes(id)
+			return "Vote added"
 
 		except Exception, e:
 			return "Something went wrong"
 
+	#This function receives ID that belongs to interpretations table and increment by 1 downvote field.
+	#In case of bad ID (wrong or does not exist) will return "Something went wrong".
 	@cherrypy.expose
 	def delVote(self, id=None):
 		try:
 			add_downvotes(id)
+			return "Vote added"
 
 		except Exception, e:
 			return "Something went wrong"
 
-	#DONE!
+	#Verify if device is Mobile or Desktop/Laptop.
+	#Compare header to existing patterns, case some of header is equal to pattern.
 	@cherrypy.expose
 	def index(self):
-		if(is_mobile(cherrypy.request) == "True"):
+		if(is_mobile(cherrypy.request)):
 			return open("index.html","r")
 		else:
 			return open("desk/index.html","r")
@@ -42,21 +49,21 @@ class Root(object):
 	
 	@cherrypy.expose
 	def novamusica(self):
-		if(is_mobile(cherrypy.request) == "True"):
+		if(is_mobile(cherrypy.request)):
 			return open("index.html","r")
 		else:
 			return open("desk/novamusica.html","r")
 	
 	@cherrypy.expose
 	def novainterpretacao(self):
-		if(is_mobile(cherrypy.request) == "True"):
+		if(is_mobile(cherrypy.request)):
 			return open("index.html","r")
 		else:
 			return open("desk/interpretacao.html","r")
 	
 	@cherrypy.expose
 	def tocarmusica(self):
-		if(is_mobile(cherrypy.request) == "True"):
+		if(is_mobile(cherrypy.request)):
 			return open("index.html","r")
 		else:
 			return open("desk/tocarmusica.html","r")
@@ -64,6 +71,9 @@ class Root(object):
 	@cherrypy.expose
 	def createSong(self, name=None, notes=None):
 		try:
+			if(len(name) == 0 or len(notes) == 0 or notes == "undefined:undefined"):
+				raise Exception
+
 			name = name.decode("utf-8")
 			notes = notes.decode("utf-8")
 			create_song(name, notes)
@@ -75,17 +85,20 @@ class Root(object):
 
 	@cherrypy.expose
 	def createInterpretation(self, registration = None, id = None, effects = None, name = None):
-		#try:
-		create_interpretation(registration,effects,id,name)
-		getno = get_notes_and_name(id)
-		pauta = getno[0] + ":" + getno[1]
-		filelocation = 'audio/'+str(last_id_interpretations())+'.wav'
+		try:
+			if(not registration.isdigit() or len(registration) != 9):
+				raise Exception
 
-		create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), registration), effects)
+			create_interpretation(registration,effects,id,name)
+			getno = get_notes_and_name(id)
+			pauta = getno[0] + ":" + getno[1]
+			filelocation = 'audio/'+str(last_id_interpretations())+'.wav'
 
-		return "Sucess"
-		#except Exception, e:
-		#	return "Something went wrong"
+			create_wav_file(filelocation, generate_sounds(generate_pairs(pauta), registration), effects)
+
+			return "Sucess"
+		except Exception, e:
+			return "Something went wrong"
 
 	@cherrypy.expose
 	def getWaveForm(self, id=None):
