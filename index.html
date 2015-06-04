@@ -27,7 +27,7 @@
 			<div data-role="header">
 				<a href="#intro" data-icon="home" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Home</a>
 				<h1>Adicionar Música</h1>
-				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" onclick="refreshJSON()" role="button">Refresh</a>
+				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" href="#intro" onclick="refreshJSON()" role="button">Refresh</a>
 			</div>
 			<div data-role="main" class="ui-content" id="himynameis">
 				<form>
@@ -51,7 +51,7 @@
 			<div data-role="header">
 				<a href="#intro" data-icon="home" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Home</a>
 				<h1>Intepretação</h1>
-				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" onclick="refreshJSON()" role="button">Refresh</a></a>
+				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" href="#intro" onclick="refreshJSON()" role="button">Refresh</a></a>
 			</div>
 			<div data-role="main" class="ui-content">
 				<div>
@@ -61,24 +61,24 @@
 				</div>
 				<div>
 					<label for="text-basic">Registo:</label>
-					<textarea cols="40" rows="8" name="textarea-2" id="textarea-2"></textarea>
+					<textarea cols="40" rows="8" name="textarea-2" id="registo"></textarea>
 				</div>
 				<div>
-					<select name="select-custom-22" id="efectInt" data-native-menu="false">
+					<select name="select-custom-22" id="efeito" data-native-menu="false">
 						<option>Escolhe o efeito:</option>
-						<option value="1">Nenhum</option>
-						<option value="2">Eco</option>
-						<option value="3">Tremolo</option>
-						<option value="4">Distorção</option>
-						<option value="5">Coro</option>
-						<option value="6">Envelope</option>
+						<option value="none">Nenhum</option>
+						<option value="echo">Eco</option>
+						<option value="tremolo">Tremolo</option>
+						<option value="distortion">Distorção</option>
+						<option value="chorus">Coro</option>
+						<option value="envolope">Envelope</option>
 					</select>
 				</div>
 				<div>
 					<label for="text-basic">Nome da Intepretação:</label>
-					<textarea cols="40" rows="8" name="textarea-2" id="textarea-2"></textarea>
+					<textarea cols="40" rows="8" name="textarea-2" id="nome"></textarea>
 				</div>
-				<button class="ui-shadow ui-btn ui-corner-all ui-btn-inline" type="submit" id="submit-2">Enviar</button>
+				<button class="ui-shadow ui-btn ui-corner-all ui-btn-inline" type="submit" onclick="addMusic()" id="submit-2">Enviar</button>
 			</div>
 			<div data-role="footer" class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
 				<div data-role="navbar" data-iconpos="bottom">
@@ -95,7 +95,7 @@
 			<div data-role="header">
 				<a href="#intro" data-icon="home" data-iconpos="notext" class="ui-link ui-btn-left ui-btn ui-icon-home ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" role="button">Home</a>
 				<h1>PlaySong</h1>
-				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" onclick="refreshJSON()" role="button">Refresh</a>
+				<a id="x" data-icon="refesh" data-iconpos="notext" class="ui-link ui-btn-right ui-btn ui-icon-refresh ui-btn-icon-notext ui-shadow ui-corner-all" data-role="button" href="#intro" onclick="refreshJSON()" role="button">Refresh</a>
 			</div>
 			<div data-role="main" class="ui-content">
 				<div>
