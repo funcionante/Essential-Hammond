@@ -34,7 +34,10 @@ class Root(object):
 	#DONE!
 	@cherrypy.expose
 	def index(self):
-		return open("index.html","r")
+		if(is_mobile(cherrypy.request) == "True"):
+			return open("index.html","r")
+		else:
+			return open("deskindex.html","r")
 	
 	@cherrypy.expose
 	def deskindex(self):
