@@ -2,6 +2,24 @@
 import sqlite3 as sql
 import sys
 import os.path
+import re
+
+def is_mobile(request):
+    ismobile = "False"
+
+    if request.headers.has_key('User-Agent'):
+        user_agent = request.headers['User-Agent']
+
+        # Test common mobile values.
+        patterns = "(xoom|up.browser|up.link|mmp|symbian|smartphone|phone|tablet|midp|wap|windows ce|pda|mobile|mini|palm|netfront|nokia)"
+
+        patt_compiled = re.compile(patterns, re.IGNORECASE)
+        match = patt_compiled.search(user_agent)
+
+        if match:
+           ismobile = "True"
+
+    return ismobile
 
 def create_song(name, notes):
 	command = 'INSERT INTO musics(name, notes) VALUES("' + name + '", "' + notes + '")'
@@ -124,6 +142,7 @@ def add_downvotes(ID):
 	command = 'UPDATE interpretations SET downvotes = "' + str(result) + '" WHERE id = ' + str(ID)
 	db.execute(command)
 	db.commit()
+
 
 
 #creates a new library database if there is no one. needs create.txt file to work properly.
