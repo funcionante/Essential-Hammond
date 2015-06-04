@@ -49,22 +49,27 @@ def get_all_songs():
 	return d
 
 def last_id():
-	result = db.execute("SELECT id FROM musics")
-	rows = result.fetchall()
-	x = []
-	for row in rows:
-		x.append(row[0])
-
-	return x[len(x)-1]
+	try:
+		result = db.execute("SELECT id FROM musics")
+		rows = result.fetchall()
+		x = []
+		for row in rows:
+			x.append(row[0])
+		return x[len(x)-1]+1
+	except IndexError, e:
+		return 1
 
 def last_id_interpretations():
-	result = db.execute("SELECT id FROM interpretations")
-	rows = result.fetchall()
-	x = []
-	for row in rows:
-		x.append(row[0])
+	try:
+		result = db.execute("SELECT id FROM interpretations")
+		rows = result.fetchall()
+		x = []
+		for row in rows:
+			x.append(row[0])
 
-	return x[len(x)-1]
+		return x[len(x)-1]+1
+	except IndexError, e:
+		return 1
 
 def create_interpretation(registration, effects,id_music,name):
 	
