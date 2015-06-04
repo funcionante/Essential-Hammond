@@ -15,6 +15,11 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 
 class Root(object):
 
+	#Forces mobile version, in case trying to see website in desktop
+	@cherrypy.expose
+	def mobile(self):
+		return open("index.html","r")
+
 	#This function receives ID that belongs to interpretations table and increment by 1 upvote field.
 	#In case of bad ID (wrong or does not exist) will return "Something went wrong".
 	@cherrypy.expose
