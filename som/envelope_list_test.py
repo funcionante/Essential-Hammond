@@ -1,6 +1,6 @@
 from effects_processor import get_env
 
-#this program gives a graphical vies of the envelope list
+#this program gives a graphical view of the envelope list
 
 env = get_env()
 

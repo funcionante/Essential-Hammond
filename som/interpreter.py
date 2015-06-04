@@ -26,6 +26,15 @@ def update_parameter(parameters, parameter, value):
 			i += 1
 	
 	return int(value)
+	
+	
+def is_valid(pauta):
+	
+	#pauta nao vazia
+	#nome não vazio
+	#
+	
+	return true
 
 #produces the pairs frequency-duration
 def generate_pairs(pauta):

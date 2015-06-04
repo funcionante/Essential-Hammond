@@ -11,6 +11,26 @@ from synthesizer import generate_sounds
 
 rate = 44100
 
+'''
+#returns a list that contains the multiples ([0,1]) to apply to the amplitudes with the envelope effect
+def get_env2():
+	env = [None] * 200
+
+	env[0] = 0
+
+	for x in range(1, 200):
+		
+		if x < 40:
+			env[x] = env[x-1] + 0.255/x
+		elif x < 100:
+			env[x] = env[x-1] - 0.10/(x-39)
+		elif x < 140:
+			env[x] = env[x-1]
+		else:
+			env[x] = env[x-1] - 0.125/(x-139)
+			
+	return env
+'''
 #returns a list that contains the multiples ([0,1]) to apply to the amplitudes with the envelope effect
 def get_env():
 	env = [None] * 200
@@ -30,6 +50,20 @@ def get_env():
 			
 	return env
 
+
+#returns a list that contains the decreasing multiples ([0,1]) to apply to the amplitudes with the percussion effect
+def get_decreasing():
+	
+	dec = [None] * 201
+	dec[0] = 1
+
+	for x in range(1, 200):
+		dec[x] = dec[x-1] - 0.165/x
+		
+	dec[200] = 0
+			
+	return dec
+	
 #returns the positive part of a value
 def module(value):
 	if value < 0:
@@ -44,8 +78,6 @@ def normalize(data, value = 32767):
 	for i in range(0, len(data)):
 		if module(data[i]) > maximum:
 			maximum = module(data[i])
-	
-	#print maximum
 	
 	if maximum != 0:
 		for i in range(0, len(data)):
@@ -96,7 +128,42 @@ def effect_distortion(data, sounds):
 	data = effect_none(data, sounds)
 	
 	for i in range (0, len(data)):
-		data[i] += pow(data[i], 2)
+		data[i] = pow(data[i], 2)
+
+	return data
+
+#applies percussion effect and returns the samples	
+def effect_percussion(data, sounds):
+	
+	dec = get_decreasing()
+	
+	freq = sounds[0]['freq']/2
+	subdata = sounds[0]['samples']
+	j = 0
+	
+	for i in range(0, len(subdata)):
+		subdata[i] += int(dec[(j/441)] * 50000 * sin(2.0 * pi * freq * i / rate))
+		
+		if(j<88200):
+			j+=1
+	
+	data += subdata
+	
+	for sound in range(1,len(sounds)):
+		
+		subdata = sounds[sound]['samples']
+		
+		if(sounds[sound-1]['freq'] == 0):
+			freq = sounds[sound]['freq']/2
+			j = 0
+		
+		for i in range(0, len(subdata)):
+			subdata[i] += int(dec[j/441] * 50000 * sin(2.0 * pi * freq * i / rate))
+			
+			if(j<88200):
+				j+=1
+			
+		data += subdata
 
 	return data
 
@@ -108,11 +175,13 @@ def effect_chorus(data, sounds):
 		subdata = sound['samples']
 		subdata = normalize(subdata)
 		
-		freq = sound['freq'] + 50
+		freq1 = sound['freq'] + 30
+		freq2 = sound['freq'] + 20
+		freq3 = sound['freq'] + 50
 		
 		for i in range(0, len(subdata)):
-		#for sample in data:
-			subdata[i] += int(32000 * sin(2.0 * pi * freq * i / rate))
+			subdata[i] += int(15000 * sin(2.0 * pi * freq1 * i / rate)) + int(15000 * sin(2.0 * pi * freq2 * i / rate)) + int(10000 * sin(2.0 * pi * freq3 * i / rate))
+		
 		data += subdata
 
 	return data
@@ -152,6 +221,9 @@ def create_wav_file(fname, sounds, effect='none'):
 	
 	elif effect == 'distortion':
 		data = effect_distortion(data, sounds)
+	
+	elif effect == 'percussion':
+		data = effect_percussion(data, sounds)	
 		
 	elif effect == 'chorus':
 		data = effect_chorus(data, sounds)
@@ -159,7 +231,7 @@ def create_wav_file(fname, sounds, effect='none'):
 	elif effect == 'envelope':
 		data = effect_envelope(data, sounds)
 	
-	# applies null effect in the other cases, including when effect = 'nono', as intended	
+	# applies null effect in the other cases, including when effect = 'none', as intended	
 	else:
 		data = effect_none(data, sounds)
 		
