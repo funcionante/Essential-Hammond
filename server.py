@@ -10,10 +10,190 @@ import os.path
 
 ###CONFIGS
 myport = 8080
-myaddress = '0.0.0.0'
+myaddress = '127.0.0.1'
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 class Root(object):
+
+	@cherrypy.expose
+	def tocarmusica(self, id=None):
+		try:
+			if(id == None):
+				id = "1"
+				vaz = ""
+				vax = ""
+				z = get_all_notes()
+				d = get_songs(id)
+			else:
+				vaz = ""
+				vax = ""
+				z = get_all_notes()
+				d = get_songs(id)
+
+			for y in z:
+				if(str(id) == str(y["id"])):
+					vaz = vaz + '''<a href="tocarmusica?id='''+str(y["id"])+'''" class="list-group-item active">'''+y["name"].encode("utf-8")+'''</a>'''
+				else:
+					vaz = vaz + '''<a href="tocarmusica?id='''+str(y["id"])+'''" class="list-group-item">'''+y["name"].encode("utf-8")+'''</a>'''
+
+			getno = get_notes_and_name(id) #gets notes and name
+			pauta = (getno[0] + ":" + getno[1]).encode("utf-8") # join name and notes
+			for x in d:
+				vax = vax + '''
+				<div class="col-sm-6 col-md-4">
+	                <div class="thumbnail">
+		                  <div class="caption">
+		                    <h3>'''+x['name'].encode("utf-8")+'''</h3>
+		                    <div class="progress">
+		                      <div class="progress-bar progress-bar-success" style="width: 95%">
+		                      </div>
+		                      <div class="progress-bar progress-bar-danger" style="width: 5%">
+		                      </div>
+		                    </div>
+		                    <span><b>Registo:</b> <span>'''+str(x['registration'])+'''</span></span>
+		                    <button type="button" class="btn btn-default btn-sm pull-right" onclick="addVote('''+str(x['id'])+''')">
+		                      <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+		                    </button>
+
+		                    <button type="button" class="btn btn-default btn-sm pull-right" onclick="delVote('''+str(x['id'])+''')">
+		                      <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+	                    </button>
+	                    <p><b>Efeito:</b> <span>'''+x['effects'].encode("utf-8")+'''</span></p>
+
+	                    <audio class="player" controls>
+	                      <source src="audio/'''+str(x['id'])+'''.wav" type="audio/wav">
+	                        Não foi possível reproduzir a música.
+	                      </audio>
+	                    </div>
+	                  </div>
+	                </div>'''
+
+			return '''
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Tocar Música</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="desk/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="desk/css/shop-item.css" rel="stylesheet">
+  <link href="desk/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Proj2App</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="novamusica">Nova Música</a>
+          </li>
+          <li>
+            <a href="novainterpretacao">Nova Interpretação</a>
+          </li>
+          <li class="active">
+            <a href="tocarmusica">Tocar Música</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-3">
+        <p class="lead">Lista de Músicas</p>
+        <div class="list-group">
+        	'''+vaz+'''
+          <!--<a href="#" class="list-group-item">Música 1</a>
+          <a href="#" class="list-group-item active">Música 2</a>
+          <a href="#" class="list-group-item">Música 3</a>-->
+        </div>
+      </div>
+
+      <div class="col-md-9">
+
+        <div class="thumbnail">
+        <img class="img-responsive" src="img/'''+str(id)+'''.jpg" alt="">
+          <div class="caption-full">
+            <h4><a href="#">'''+getno[0].encode("utf-8")+'''</a>
+            </h4>
+            <p>'''+pauta+'''</p>
+          </div>
+        </div>
+
+        <div class="row">
+                '''+vax+'''
+        </div>
+            </div>
+
+          </div>
+
+        </div>
+        <!-- /.container -->
+
+        <div class="container">
+
+          <hr>
+
+          <!-- Footer -->
+          <footer>
+            <div class="row">
+              <div class="col-lg-12">
+                <p>Copyright &copy; 2015. Todos os direitos reservados. Desenvolvido em <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>. Template original: <a href="https://github.com/IronSummitMedia/startbootstrap-shop-item" target="_blank">Shop Item</a>.</p>
+              </div>
+            </div>
+          </footer>
+
+        </div>
+        <!-- /.container -->
+
+        <!-- jQuery -->
+        <script src="desk/js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="desk/js/bootstrap.min.js"></script>
+
+        <!-- Scripts -->
+        <script src="desk/js/scripts.js"></script>
+
+      </body>
+
+      </html>
+'''
+		except Exception, e:
+			return "Não existem músicas"
 
 	#Forces mobile version, in case trying to see website in desktop
 	@cherrypy.expose
@@ -72,12 +252,11 @@ class Root(object):
 	
 	#Verify if device is Mobile or Desktop/Laptop.
 	#Compare header to existing patterns, case some of header is equal to pattern.
-	@cherrypy.expose
-	def tocarmusica(self):
+	'''def tocarmusica(self):
 		if(is_mobile(cherrypy.request)):
 			return open("index.html","r")
 		else:
-			return open("desk/tocarmusica.html","r")
+			return open("desk/tocarmusica.html","r")'''
 
 	#Receives name and notes as URL parameters, verify if correct. Send to database.
 	#Create imagem (image name = id of notes)
