@@ -1,0 +1,23 @@
+Modulos criados: mobile,addVote,delVote,index,novainterpretacao,tocarmusica, createSong, createInterpretation, getWaveForm, getWaveFile, getNotes, listSongFiles, listNotes, listSongs
+
+Programa server.py foi construido com cherrypy, fizemos as seguintes importações: cherrypy, sqlite3, os.path. Restantes importaçoes são programas construidos pelos membros do grupo, como : interpreter, synthesizer, effects_processor, database.
+
+server.py possui uma única class (Root) onde encontram-se os seguintes módulo criados: mobile,addVote,delVote,index,novainterpretacao,tocarmusica, createSong, createInterpretation, getWaveForm, getWaveFile, getNotes, listSongFiles, listNotes, listSongs.
+
+- index, novamusica, novainterpretacao, tocarmusica : verifica se o website esta a ser acedido atravez de um telemovel ou computador, caso seja telemóvel irá redireccionar sempre para o index da versão mobile.
+
+- createSong : recebe como argumentos nome e pauta, verificando se estão minimamente validos (nome não pode ser vazio, quando javascript envia notas vazias, modulo recebe-as no seguinte formato undefined:undefined). Apos a verificação é feita decodificação para String dos parametros recebidos. Depois de converter é criada a imagem com o nome igual ao ID das notas no tabela musics da base de dados. Criação de imagem também serve de metodo de verificação, pois se ocorrer algum erro na criação, uma excessão é levantada e o programa envia mensagem de error. Caso imagem é criada com sucesso, os dados são enviados para base de dados. E retorna mensagem de sucesso.
+
+- createInterpretation : recebe como argumentos, registo, id da pauta, efeito e nome, fazendo a verificação (registo tem de ser númerico, tamanho de registo só pode ser 9, nome não pode ser vazio, efeito não pode ser vazio, id não pode ser vazio, id tem de ser numerico). Antes de criar ficheiro .wav é necessário ir buscar e juntar o nome e as notas do id fornecido como argumento. Caso na criação do ficheiro .wav ocorra uma excessão, o programa imprime mensagem de erro sem acabar o programa. Se o ficheiro for criado com sucesso, informação sobre interpretação (argumentos do módulo) irão ser guardados na base de dados e irá retornar mensagem de sucesso.
+
+- getWaveForm, getWaveFile : recebo como argumento ID da música/interpretação, que depois irá redirecionar para o ficheiro .jpg/.wav, caso ficheiro nao exista será levantada excessão 404NotFound.
+
+- getNotes : recebe como argumento ID da tabela musics devolvendo as notas na forma de String.
+
+- listSongFiles : recebe como argumento ID da tablema musics, onde irá buscar todas interpretações feitas com ID da musica, retornando na forma de json.
+
+- listNotes, listSongs: não recebe nenhum argumento, devolve em formato json toda tabela de musics(tablema das notas)/interpretations(table das interpretações), respectivamente.
+
+- addVote, delVote: recebe como argumento ID da interpretação onde irá adicionar na tabela interpretations no campo upvote / downvote, respectivamente. Caso interpretação não existe ou operação não ocorreu, devolve mensagem de erro.
+
+- mobil: força a aparecer versão mobile, mesmo que utilizador esta a aceder apartir de um computador.
