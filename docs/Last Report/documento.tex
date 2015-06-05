@@ -1,0 +1,172 @@
+\documentclass{report}
+\usepackage[T1]{fontenc} % Fontes T1
+\usepackage[utf8]{inputenc} % Input UTF8
+\usepackage[backend=biber, style=ieee]{biblatex} % para usar bibliografia
+\usepackage{csquotes}
+\usepackage[portuguese]{babel} %Usar língua inglesa
+\usepackage{blindtext} % Gerar texto automáticamente
+\usepackage[printonlyused]{acronym}
+\usepackage{hyperref} % para autoref
+\usepackage{graphicx}
+\usepackage{listings}
+        \usepackage{color}
+        \definecolor{dkgreen}{rgb}{0,0.6,0}
+        \definecolor{gray}{rgb}{0.5,0.5,0.5}
+        \definecolor{mauve}{rgb}{0.8,0,0.82}
+        \lstset{frame=tb, language=python, aboveskip=3mm, belowskip=3mm, showstringspaces=false, columns=flexible, basicstyle={\small\ttfamily}, numbers=none, numberstyle=\tiny\color{gray}, keywordstyle=\color{blue}, commentstyle=\color{dkgreen}, stringstyle=\color{mauve}, breaklines=true, breakatwhitespace=true, tabsize=3}
+
+\bibliography{bibliografia}
+
+
+\begin{document}
+%%
+% Definições
+%
+\def\titulo{PROJETO 2 - RELATÓRIO FINAL}
+\def\data{5 de Junho de 2015}
+\def\autores{Domingos Nunes, Dzianis Bartashevich, Francisco Cunha, Leonardo Oliveira}
+\def\autorescontactos{dfsn@ua.pt, bartashevich@ua.pt, franciscomiguelcunha@ua.pt, leonardooliveira@ua.pt}
+\def\versao{Versão 1.0}
+\def\departamento{Departamento de Eletrónica, Telecomunicações e Informática}
+\def\empresa{Universidade de Aveiro}
+\def\logotipo{images/ua.pdf}
+%
+%% CAPA %%
+%
+\begin{titlepage}
+
+\begin{center}
+%
+\vspace*{50mm}
+%
+{\Huge \titulo}\\ 
+%
+\vspace{10mm}
+%
+{\Large \empresa}\\
+%
+\vspace{10mm}
+%
+{\LARGE \autores}\\ 
+%
+%
+\vspace{30mm}
+%
+\begin{figure}[h]
+\center
+\includegraphics{\logotipo}
+\end{figure}
+%
+\vspace{20mm}
+\end{center}
+%
+\begin{flushright}
+\versao
+\end{flushright}
+\end{titlepage}
+
+%
+%
+%%  Página de Título %%
+%
+%
+\title{%
+{\Huge\textbf{\titulo}}\\
+{\Large \departamento\\ \empresa}
+}
+%
+\author{%
+    \autores \\
+    \autorescontactos
+}
+%
+\date{\data}
+%
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RESUMO
+%
+%
+\pagenumbering{roman}
+
+
+
+\tableofcontents
+\listoffigures
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introdução}
+\label{chap.introducao}
+Este documento contém uma abordagem geral das etapas de realização do projeto 2 de Laboratórios de Informática, de acordo com o enunciado disponibilizado na plataforma \textit{moodle} da universidade \cite{moodle}.
+
+Neste sentido, este documento está dividido em 7 capítulos. Depois desta introdução, no \autoref{chap.aplicacao} é apresentada a estrutura das páginas \ac{html} necessárias à interação com a aplicação, no \autoref{chap.servidor} são referidos alguns aspetos sobre o servidor, no \autoref{chap.som}, são tratados os módulos necessários ao processamento e geração de ficheiros de som e no \autoref{chap.base} é apresentada a árvore da base de dados a ser criada. Já no \autoref{chap.fases}, estão presentes as datas planeadas para o desenvolvimento do projeto, assim como a distribuição de tarefas da fase inicial. Finalmente, no \autoref{chap.finais} são apresentadas algumas considerações finais.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Aplicação Web}
+\label{chap.aplicacao}
+
+\input{mobile.tex}
+
+\input{desktop.tex}
+
+
+\input{servidor.tex}
+
+\input{som.tex}
+
+
+\input{base.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Fases de desenvolvimento}
+\label{chap.fases}
+Estão previstas três fases de desenvolvimento do projeto:
+
+\begin{itemize}
+\item Fase 1 - 13 de Maio a 21 de Maio (a decorrer);
+\item Fase 2 - 22 de Maio a 29 de Maio;
+\item Fase 3 - 30 de Maio a 7 de Junho.
+\end{itemize}
+
+\section{Fase 1}
+Inicialmente, será desenvolvida cada uma das partes da aplicação em separado e a distribuição das tarefas é a seguinte:
+\begin{itemize}
+\item Domingos - Implementação do \textit{mockup} das páginas \ac{html};
+\item Dzianis - Implementação do servido;
+\item Francisco - Implementação da base de dados;
+\item Leonardo - Implementação do sintetizador e interpretador de pautas.
+\end{itemize}
+\section{Fase 2}
+Neste fase a aplicação será testada no seu todo, sendo efetuados os ajustes necessários ao seu correto funcionamento, podendo ser acrescentadas algumas funcionalidades úteis que não tenham sido previstas.
+\section{Fase 3}
+Finalmente, serão afetuados os ajustes finais, sendo também completado o módulo processador de efeitos, para que este comece efetivamente a criar efeitos nas músicas: Echo, Tremolo, Distorção, Percursão, Chorus e Envelope.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Considerações finais}
+\label{chap.finais}
+
+As considerações feitas neste documento estão abertas a alterações, pelo que poderão ser efetuados ajustes nas funcionalidades implementadas ou na distribuição de tarefas caso seja necessário.
+
+Embora não tenha sido aqui referido com pormenor, serão efetuados alguns testes (manuais e automáticos) a cada um dos componentes desenvolvidos e que serão, sempre que possível, da responsabilidade de um elemento que não tenha desenvolvido esse componente, para que seja mais ágil a deteção de erros e para que todos possamos ter uma melhor perseção do que foi feito pelos restantes colegas.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter*{Acrónimos}
+\begin{acronym}
+\acro{sql}[SQL] {Structured Query Language}
+\acro{html} [HTML] {HyperText Markup Language}
+\acro{rtttl} [RTTTL] {Ring Tone Transfer Language}
+\acro{json} [JSON] {JavaScript Object Notation}
+
+\end{acronym}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\printbibliography
+
+\end{document}

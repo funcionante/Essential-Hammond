@@ -1,0 +1,23 @@
+\chapter{Servidor}
+\label{chap.servidor}
+
+Vai ser utilizado o módulo CherryPy \cite{cherry} para fazer um servidor HTTP que irá ter funcionalidades como GET e POST. Vai utilizar o \ac{json} como o meio de transporte de informação entre a base de dados e a Aplicação Web.
+
+Os serviços a implementar seguirão o modelo dos colocados no enunciado do projeto.
+
+Estamos a considerar não implementar o \emph{/getWaveFile} e \emph{/getWaveForm}, visto que, se guardarmos os ficheiros com o nome igual ao seu identificador, a sua procura é facilitada, podendo-se aceder diretamente ao \emph{link} em que se encontram. Por exemplo, para obter o ficheiro de música da interpretação com id 5, acedemos a \emph{/interpretations/5.wav}.
+
+Se o utilziador pedir a lista de músicas existentes (\emph{/listSongs}), o servidor acede à base de dados e irá gerar um ficheiro \ac{json} com informação das músicas existentes e a aplicação web irá interpretar esse ficheiro. Um exemplo de ficheiro \ac{json} poderia ser:
+
+\begin{lstlisting}
+{
+    {
+        "id": 1,
+        "name": "The Simpsons"
+    },
+    {
+        "id": 2,
+        "name": "The Family Guy"
+    }
+}
+\end{lstlisting}
