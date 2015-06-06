@@ -16,13 +16,14 @@ $.ajax({
 });
 
 function MusicMenu () {
-	id = document.getElementById("notesPlay").value;
-	$('#'+id).slideDown({
-		duration: 400,
-		complete: function(){
-			$("#PlaySubmit").hide();
-		}
-	});
+	music = ""+document.getElementById("notesPlay").value;
+	for (var i = 0; i < id.length; i++) {
+		if (id[i].charAt(1) == music) {
+			$('#'+id[i]).slideDown();
+		};
+	};
+
+	$('#playSubmit').hide();
 }
 
 $.ajax({
@@ -30,19 +31,16 @@ $.ajax({
 	url: 'listSongs',
 	success: function(songs){
 		var $songs= $('#songs');
+		id = ["test"];
 		for (var i = 0; i < songs.length; i++) {
-			$songs.append('<div id="'+songs[i].id_music+'" data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u"><h4>'+songs[i].name+'</h4><audio controls><source src="http://localhost:8080/audio/'+songs[i].id_music+'.wav" type="audio/wav"></audio></div>');
+			$songs.append('<div id="'+songs[i].id+''+songs[i].id_music+'" data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u"><h4>'+songs[i].name+'</h4><audio controls><source src="http://localhost:8080/audio/'+songs[i].id+'.wav" type="audio/wav"></audio></div>');
+			id.push(songs[i].id+''+songs[i].id_music);
 		};
-		$.ajax({
-			type: 'GET',
-			url: 'listSongs',
-			success: function(notes){
-				var songsId = notes.length;
-				for (var i = 1; i <= notes.length; i++) {
-					$('#'+i).hide();
-				};
-			}
-		});
+
+		for (var i = 1; i < id.length; i++) {
+			$('#'+id[i]).hide();
+			console.log('#'+id[i]);
+		};
 	}
 });
 
