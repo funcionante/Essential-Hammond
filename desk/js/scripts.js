@@ -2,12 +2,38 @@ function addVote(x){
     $.post("addVote","id="+x,function(response){
         console.log(response);
     });
+    
+    var $voted = $("#voted"+x);
+    $voted.attr("style","width: 100%");
+    
+    /*var $up = $("#up"+x);
+    var $down = $("#down"+x);
+    console.log($up);
+    console.log($down);
+    
+    var upval = parseInt($up.val())+1;
+    var downval = parseInt($down.val());
+    console.log(upval);
+    console.log(downval);
+    
+    $up.html(upval);
+    
+    var upval100 = 100*upval/(upval+downval);
+    var downval100 = 100 - upval;
+    console.log(upval100);
+    console.log(downval100);
+    
+    $up.attr("style","width: " + upval100 + "%");
+    $down.attr("style","width: " + downval100 + "%");*/
 }
 
 function delVote(x){
     $.post("delVote","id="+x,function(response){
         console.log(response);
     });
+    
+    var $voted = $("#voted"+x);
+    $voted.attr("style","width: 100%");
 }
 
 $(function(){

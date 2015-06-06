@@ -39,25 +39,40 @@ class Root(object):
 			getno = get_notes_and_name(id) #gets notes and name
 			pauta = (getno[0] + ":" + getno[1]).encode("utf-8") # join name and notes
 			for x in d:
+				
+				up = x['upvotes']
+				down = x['downvotes']
+				
+				if up == 0 and down == 0:
+					up100 = 50
+					down100 = 50
+				else:
+					up100 = up*100/(up+down)
+					down100 = 100-up100
+					
 				vax = vax + '''
 				<div class="col-sm-6 col-md-4">
 	                <div class="thumbnail">
 		                  <div class="caption">
 		                    <h3>'''+x['name'].encode("utf-8")+'''</h3>
 		                    <div class="progress">
-		                      <div class="progress-bar progress-bar-success" style="width: 95%">
+							  <div id="voted'''+str(x['id'])+'''" class="progress-bar progress-bar" style="width: 0%">
+								Voto enviado.
 		                      </div>
-		                      <div class="progress-bar progress-bar-danger" style="width: 5%">
+		                      <div class="progress-bar progress-bar-success" style="width: '''+str(up100)+'''%">
+								'''+str(up)+'''
+		                      </div>
+		                      <div class="progress-bar progress-bar-danger" style="width: '''+str(down100)+'''%">
+								'''+str(down)+'''
 		                      </div>
 		                    </div>
 		                    <span><b>Registo:</b> <span>'''+str(x['registration'])+'''</span></span>
+		                    <button type="button" class="btn btn-default btn-sm pull-right" onclick="delVote('''+str(x['id'])+''')">
+		                      <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+							</button>
 		                    <button type="button" class="btn btn-default btn-sm pull-right" onclick="addVote('''+str(x['id'])+''')">
 		                      <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 		                    </button>
-
-		                    <button type="button" class="btn btn-default btn-sm pull-right" onclick="delVote('''+str(x['id'])+''')">
-		                      <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-	                    </button>
 	                    <p><b>Efeito:</b> <span>'''+x['effects'].encode("utf-8")+'''</span></p>
 
 	                    <audio class="player" controls>
