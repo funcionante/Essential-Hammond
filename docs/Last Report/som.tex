@@ -19,7 +19,7 @@ No caso desta pauta, o interpretador devolve uma lista com 23 pares, com a segui
 \end{lstlisting}
 \vspace{5mm}
 
-Internamente, o interpretador começa por ignorar a primeira parte da pauta, correspondente ao nome. De seguida, analiza os valores dos parâmetros de referência, d, o e b. Caso algum não esteja definido, é aplicado o valor padrão (d=4, o=6 e b=63). Por fim, extrai a parte correspondente às notas e percorre nota a nota, tendo a vírgula como refeencia para as separar. Para determinar a frequência da nota para uma dada oitava, foi criada uma \emph{lookup table}, sendo devolvida a frequência quando é inserido como parâmetro a seguinte expressão: [12 * oitava + tom] - com a oitava a variar entre 0 e 7 e o tom entre 0 e 11, sendo o 0 correspondente ao dó e o 11 ao si. No final do cálculo da frequência e tempo de cada nota, o par é adicionado à lista, que no final é devolvida.
+Internamente, o interpretador começa por ignorar a primeira parte da pauta, correspondente ao nome. De seguida, analisa os valores dos parâmetros de referência, d, o e b. Caso algum não esteja definido, é aplicado o valor padrão (d=4, o=6 e b=63). Por fim, extrai a parte correspondente às notas e percorre nota a nota, tendo a vírgula como refeencia para as separar. Para determinar a frequência da nota para uma dada oitava, foi criada uma \emph{lookup table}, sendo devolvida a frequência quando é inserido como parâmetro a seguinte expressão: [12 * oitava + tom] - com a oitava a variar entre 0 e 7 e o tom entre 0 e 11, sendo o 0 correspondente ao dó e o 11 ao si. No final do cálculo da frequência e tempo de cada nota, o par é adicionado à lista, que no final é devolvida.
 
 \section{Sintetizador}
 O sintetizador recebe como argumentos os pares vindos do interpretador e um registo, devolvendo uma nova lista com a frequência (principal) e respetivas amostras ao processador de efeitos. Inicialmente são criadas as seguintes variáveis:
@@ -32,7 +32,7 @@ O sintetizador recebe como argumentos os pares vindos do interpretador e um regi
 \item Um inteiro para a frequência de amostragem, que é sempre 44100.
 \end{itemize}
 
-De seguida, o sintetizador percorre a lista de pares recebido do interpretador, alterando a lista de frequências para cada nota. Para casa par produz as amostras com a duração definida, correspondendo à soma das 9 componentes sinosoidais. Estas têm a amplitude e frequência previamente calculadas e guardadas nas listas referidas acima. No final de cada nota ser processada, a frequência principal e amostras são adicionadas à lista que no final vai ser devolvida. A lista fica com a seguinte estrutura:
+De seguida, o sintetizador percorre a lista de pares recebido do interpretador, alterando a lista de frequências para cada nota. Para casa par produz as amostras com a duração definida, correspondendo à soma das 9 componentes sinusoidais. Estas têm a amplitude e frequência previamente calculadas e guardadas nas listas referidas acima. No final de cada nota ser processada, a frequência principal e amostras são adicionadas à lista que no final vai ser devolvida. A lista fica com a seguinte estrutura:
 
 \vspace{5mm}
 \begin{lstlisting}
@@ -45,6 +45,8 @@ Os cuidados com a possível existência de clipping não são tomados nesta altu
 \section{Processador de efeitos}
 O processador de efeitos recebe a lista de sons vinda do sintetizador e o efeito pretendido, tendo ccomo função gerar o ficheiro de som da música. Nas secções seguintes irá ser explicado como é aplicado cada um dos efeitos.
 
+Depois do efeito pretendido ser aplicado, as amostras são normalizadas, para poderem estar contidas no intervalo de resolução (-32768 to 32767), sendo posteriormente empacotadas e utilizadas na geração do ficheiro wav.
+
 \subsection{Efeito nulo}
 A partir da lista de sons fornecida, extrai a lista de samples de cada som e junta-os numa única lista, para poder
 
@@ -52,15 +54,32 @@ A partir da lista de sons fornecida, extrai a lista de samples de cada som e jun
 Aplica inicialmente o efeito nulo e, seguidamente, percorre a lista de amostras, somando a cada uma um múltiplo (inferior a 1, para atenuar) da amostra correspondente a 0,1 segundos atrás e outro múltiplo (mais pequeno que o anterior, para atenuar ainda mais, pois é um eco mais atrasado) da amostra 0,2 segundos atrás. Deste modo, são introduzidos dois ecos, com atrasos de 0,1 e 0,2 segundos.
 
 \subsection{Efeito trémolo}
-Aplica inicialmente o efeito nulo e, seguidamente, percorre a lista de amostras, elevando ao quadrado cada amostra.
+Aplica inicialmente o efeito nulo e, seguidamente, percorre a lista de amostras, adicionando a cada amostra uma outra amostra de uma sinusoidal de frequência 20Hz. O resultado é uma música com oscilações rápidas de amplitude, dando a ideia de vibrar.
 
 \subsection{Efeito distorção}
+Aplica inicialmente o efeito nulo e, seguidamente, percorre a lista de amostras, elevando ao quadrado cada amostra.
 
-\subsection{Efeito percurssão}
+\subsection{Efeito percussão}
+Tem como objetivo de no início da música ou depois de uma pausa sobrepor uma harmónica, que se vai anulando ao longo do tempo. Para tal, começa por aplicar no primeiro conjunto de samples essa harmónica (início da música) e, para as notas seguintes, volta a aplicar uma harmónica caso a frequência principal das amostras da nota imediatamente anterior seja zero (pausa).
+
+A modulação da amplitude de cada harmónica ao longo do tempo é baseada numa lista previamente criada (ver \autoref{percussionlist}), na qual se pode aceder a um índice entre 0 e 200. Para cada índice, vem um múltiplo (entre 0 e 1) pelo qual se deve multiplicar a amplitude da onda.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{images/percussionlist.png}
+\caption{Visualização gráfica através do terminal dos valores da lista utilizada para calcular os múltiplos da amplitude da onda no efeito percussão. No repositório, pode executar-se o ficheiro som/decreasing\_list\_test.py.}
+\label{percussionlist}
+\end{figure}
 
 \subsection{Efeito coro}
+Para cada nota, percorre a lista de amostras, adicionando 3 sinusoidais com +20, +30 e +50 Hz que a frequência principal, tendo como efeito um conjunto de sons de fundo que acompanham a música principal.
 
 \subsection{Efeito envelope}
+Para cada nota, percorre a lista de amostras, moldando a amplitude total da nota de acordo com uma lista previamente criada (ver \autoref{envelopelist}), na qual se pode aceder a um índice entre 0 e 200. Para cada índice, vem um múltiplo (entre 0 e 1) pelo qual se deve multiplicar a amostra.
 
-
-Depois do efeito pretendido ser aplicado, as amostras são normalizadas, para poderem estar contidas no intervalo de resolução (-32768 to 32767), sendo posteriormente empacotadas e utilizadas na geração do ficheiro wav.
+\begin{figure}[htp]
+\centering
+\includegraphics[width=\textwidth]{images/envelopelist.png}
+\caption{Visualização gráfica através do terminal dos primeiros valores da lista utilizada para calcular os múltiplos da amplitude das amostras no efeito envelope. No repositório, pode executar-se o ficheiro som/envelope\_list\_test.py.}
+\label{envelopelist}
+\end{figure}

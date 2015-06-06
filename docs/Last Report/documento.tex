@@ -107,6 +107,27 @@ Este documento contém uma abordagem geral das etapas de realização do projeto
 Neste sentido, este documento está dividido em 7 capítulos. Depois desta introdução, no \autoref{chap.aplicacao} é apresentada a estrutura das páginas \ac{html} necessárias à interação com a aplicação, no \autoref{chap.servidor} são referidos alguns aspetos sobre o servidor, no \autoref{chap.som}, são tratados os módulos necessários ao processamento e geração de ficheiros de som e no \autoref{chap.base} é apresentada a árvore da base de dados a ser criada. Já no \autoref{chap.fases}, estão presentes as datas planeadas para o desenvolvimento do projeto, assim como a distribuição de tarefas da fase inicial. Finalmente, no \autoref{chap.finais} são apresentadas algumas considerações finais.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Metodologia}
+\label{chap.metodologia}
+
+Para a realização deste projeto tivemos a seguinte ordem de trabalhos:
+
+\begin{enumerate}
+\item Análise do enunciado e consciencialização de todas a funcionalidades pretendidas;
+\item Trabalho em separado em cada um dos componentes: implementação do mockup das páginas, servidor, base de dados e módulos relacionados com a produção de som;
+\item Interligação entre os componentes, com especial atenção à interação entre a aplicação web e o servidor: páginas para criar músicas e interpretações;
+\item Implementação da página para reproduzir músicas, ainda sem a funcionalidade de votos;
+\item Conclusão dos efeitos para o processaodor de efeitos;
+\item Implementação dos pormenores finais, como a possibilidade de votar nas músicas e algumas validações para evitar erros de execução.
+\end{enumerate}
+
+Para o desenvolvimento dos módulos de geração de som, implementação do servidor e base de dados, foi utilizada a linguagem de programação Python \cite{python}. Recorreu-se ao módulo CherryPy \cite{cherry}, para o servidor, à ferramenta sqlite3 \cite{sqlite}, para a base dados, e ao pacote wave \cite{wave}, para o som.
+
+Quanto às páginas web, basearam-se na \emph{framework} JQuery Mobile \cite{jquery}, no caso da versão móvel, e no Bootstrap \cite{bootstrap}, para a versão \emph{desktop}.
+
+Ao longo deste documento serão descritas as implementações realizadas, sendo que, para obter informação mais detalhada sobre cada assunto, poderão ser consultados os comentários efetuados ao longo do código fonte.
+
 \chapter{Aplicação Web}
 \label{chap.aplicacao}
 
