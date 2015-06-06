@@ -18,7 +18,9 @@ class Root(object):
 	@cherrypy.expose
 	def tocarmusica(self, id=None):
 		try:
-			if(id == None):
+			if(len(get_all_notes()) == 0):
+				return open("desk/tocarmusicavazio.html","r")
+			elif(id == None):
 				id = "1"
 				vaz = ""
 				vax = ""
@@ -199,7 +201,7 @@ class Root(object):
       </html>
 '''
 		except Exception, e:
-			return "Não existem músicas"
+			return open("desk/tocarmusicavazio.html","r")
 
 	#Forces mobile version, in case trying to see website in desktop
 	@cherrypy.expose
@@ -254,7 +256,10 @@ class Root(object):
 		if(is_mobile(cherrypy.request)):
 			return open("index.html","r")
 		else:
-			return open("desk/interpretacao.html","r")
+			if(len(get_all_notes()) == 0):
+				return open("desk/interpretacaovazio.html","r")
+			else:
+				return open("desk/interpretacao.html","r")
 	
 	#Verify if device is Mobile or Desktop/Laptop.
 	#Compare header to existing patterns, case some of header is equal to pattern.
@@ -288,7 +293,7 @@ class Root(object):
 	@cherrypy.expose
 	def createInterpretation(self, registration = None, id = None, effects = None, name = None):
 		try:
-			if(not registration.isdigit() or len(registration) != 9 or len(name) == 0 or len(effects) == 0 or len(id) == 0 or not id.isdigit()):
+			if(not registration.isdigit() or len(registration) != 9 or len(name) == 0 or len(effects) == 0 or len(id) == 0 or not id.isdigit() or str(registration).find("9") != -1):
 				raise Exception
 
 			getno = get_notes_and_name(id) #gets notes and name
