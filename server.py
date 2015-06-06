@@ -135,6 +135,9 @@ class Root(object):
           <li class="active">
             <a href="tocarmusica">Tocar Música</a>
           </li>
+          <li>
+            <a href="sobrenos">Sobre Nós</a>
+          </li>
         </ul>
       </div>
       <!-- /.navbar-collapse -->
@@ -260,6 +263,15 @@ class Root(object):
 				return open("desk/interpretacaovazio.html","r")
 			else:
 				return open("desk/interpretacao.html","r")
+	
+	#Verify if device is Mobile or Desktop/Laptop.
+	#Compare header to existing patterns, case some of header is equal to pattern.
+	@cherrypy.expose
+	def sobrenos(self):
+		if(is_mobile(cherrypy.request)):
+			return open("index.html","r")
+		else:
+			return open("desk/sobrenos.html","r")
 	
 	#Verify if device is Mobile or Desktop/Laptop.
 	#Compare header to existing patterns, case some of header is equal to pattern.
