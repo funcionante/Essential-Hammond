@@ -36,8 +36,6 @@ class Root(object):
 				else:
 					vaz = vaz + '''<a href="tocarmusica?id='''+str(y["id"])+'''" class="list-group-item">'''+y["name"].encode("utf-8")+'''</a>'''
 
-			getno = get_notes_and_name(id) #gets notes and name
-			pauta = (getno[0] + ":" + getno[1]).encode("utf-8") # join name and notes
 			for x in d:
 				
 				up = x['upvotes']
@@ -148,12 +146,9 @@ class Root(object):
     <div class="row">
 
       <div class="col-md-3">
-        <p class="lead">Lista de Músicas</p>
+        <p class="lead">Músicas disponíveis:</p>
         <div class="list-group">
         	'''+vaz+'''
-          <!--<a href="#" class="list-group-item">Música 1</a>
-          <a href="#" class="list-group-item active">Música 2</a>
-          <a href="#" class="list-group-item">Música 3</a>-->
         </div>
       </div>
 
@@ -161,11 +156,7 @@ class Root(object):
 
         <div class="thumbnail">
         <img class="img-responsive" src="img/'''+str(id)+'''.jpg" alt="">
-          <div class="caption-full">
-            <h4><a href="#">'''+getno[0].encode("utf-8")+'''</a>
-            </h4>
-            <p>'''+pauta+'''</p>
-          </div>
+          
         </div>
 
         <div class="row">

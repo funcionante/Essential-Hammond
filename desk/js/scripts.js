@@ -5,26 +5,6 @@ function addVote(x){
     
     var $voted = $("#voted"+x);
     $voted.attr("style","width: 100%");
-    
-    /*var $up = $("#up"+x);
-    var $down = $("#down"+x);
-    console.log($up);
-    console.log($down);
-    
-    var upval = parseInt($up.val())+1;
-    var downval = parseInt($down.val());
-    console.log(upval);
-    console.log(downval);
-    
-    $up.html(upval);
-    
-    var upval100 = 100*upval/(upval+downval);
-    var downval100 = 100 - upval;
-    console.log(upval100);
-    console.log(downval100);
-    
-    $up.attr("style","width: " + upval100 + "%");
-    $down.attr("style","width: " + downval100 + "%");*/
 }
 
 function delVote(x){
@@ -43,6 +23,7 @@ $(function(){
         var $code = $('#code');
         var $alerts = $('#alerts');
         $alerts.empty(); //removes any previous allerts
+        $alerts.append('<div class="alert alert-info pull-right" role="alert">A enviar...</div>');
 
         splited = $code.val().split(":");
         var name = splited[0];
@@ -53,24 +34,15 @@ $(function(){
             notes: notes,
         };
 
-        /*$.ajax({
-            type: 'POST',
-            url: 'createSong',
-            data: song,
-            success: function(){
-                $alerts.append('<div class="alert alert-success pull-right" role="alert">Música enviada com sucesso!</div>'); //add a succss alert
-                $code.val(""); //cleans the input area
-            }
-        })*/
-
         $.post("createSong",song,function(response){
             console.log(response);
+            $alerts.empty(); //removes any previous allerts
             if(response == "Sucess"){
                 $alerts.append('<div class="alert alert-success pull-right" role="alert">Música enviada com sucesso!</div>'); //add a succss alert
                 $code.val(""); //cleans the input area
             }
             else{
-                $alerts.append('<div class="alert alert-success pull-right" role="alert">ERRRRRRRROR!</div>'); //add a succss alert
+                $alerts.append('<div class="alert alert-danger pull-right" role="alert">Ocorreu um erro. Por favor, insere valores válidos.</div>'); //add a succss alert
                 $code.val(""); //cleans the input area
             }
         });
@@ -85,6 +57,7 @@ $(function(){
         var $registration = $('#registration');
         var $alerts = $('#alerts');
         $alerts.empty(); //removes any previous allerts
+        $alerts.append('<div class="alert alert-info pull-right" role="alert">A enviar...</div>');
 
         console.log($songs);
         console.log($effects);
@@ -102,30 +75,20 @@ $(function(){
 
         $.post("createInterpretation",interpretation,function(response){
             console.log(response);
+            $alerts.empty(); //removes any previous allerts
             if(response == "Sucess"){
                 $alerts.append('<div class="alert alert-success pull-right" role="alert">Interpretação enviada com sucesso!</div>'); //add a succss alert
                 $name.val(""); //cleans the input area
                 $registration.val("");
             }
             else{
-                $alerts.append('<div class="alert alert-success pull-right" role="alert">ERRRRROR!</div>'); //add a succss alert
+                $alerts.append('<div class="alert alert-danger pull-right" role="alert">Ocorreu um erro. Por favor, insere valores válidos.</div>'); //add a succss alert
                 $name.val(""); //cleans the input area
                 $registration.val("");
             }
         });
 
-        /*$.ajax({
-            type: 'POST',
-            url: 'createInterpretation',
-            data: interpretation,
-            success: function(){
-                $alerts.append('<div class="alert alert-success pull-right" role="alert">Interpretação enviada com sucesso!</div>'); //add a succss alert
-                $name.val(""); //cleans the input area
-                $registration.val("");
-            }
-        })*/
     });
-
 
     //function to get the list of musics
     $.ajax({
