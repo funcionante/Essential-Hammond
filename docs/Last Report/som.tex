@@ -1,4 +1,66 @@
 \chapter{Som}
 \label{chap.som}
 
-Os módulos ligados ao processamento e geração de ficheiros de som seguirão os moldes do que foi sugerido no enunciado do projeto. Será criado um interpretador de pautas, um sintetizador e um processador de efeitos.
+Os módulos ligados ao processamento e geração de ficheiros de som seguiram os moldes do que foi sugerido no enunciado do projeto. Foi criado um interpretador de pautas, um sintetizador e um processador de efeitos.
+
+\section{Interpretador de pautas}
+
+O interpretador recebe uma pauta no formato \ac{rtttl} e devolve uma lista de pares duração-frequência, cada par correspondendo à nota e a sua respetiva duração. Tomemos como exemplo a seguinte pauta:
+
+\vspace{5mm}
+\textbf{"Barbie girl : d=4, o=5, b=125 : 8g\#, 8e, 8g\#, 8c\#6, a, p, 8f\#, 8d\#, 8f\#, 8b, g\#, 8f\#, 8e, p, 8e, 8c\#, f\#, c\#, p, 8f\#, 8e, g\#, f\#'}
+\vspace{5mm}
+
+No caso desta pauta, o interpretador devolve uma lista com 23 pares, com a seguinte estrutura:
+
+\vspace{5mm}
+\begin{lstlisting}
+[{'freq': 830, 'time': 0.24}, {'freq': 659, 'time': 0.24}, {'freq': 830, 'time': 0.24}, {'freq': 1108, 'time': 0.24} ... ]
+\end{lstlisting}
+\vspace{5mm}
+
+Internamente, o interpretador começa por ignorar a primeira parte da pauta, correspondente ao nome. De seguida, analiza os valores dos parâmetros de referência, d, o e b. Caso algum não esteja definido, é aplicado o valor padrão (d=4, o=6 e b=63). Por fim, extrai a parte correspondente às notas e percorre nota a nota, tendo a vírgula como refeencia para as separar. Para determinar a frequência da nota para uma dada oitava, foi criada uma \emph{lookup table}, sendo devolvida a frequência quando é inserido como parâmetro a seguinte expressão: [12 * oitava + tom] - com a oitava a variar entre 0 e 7 e o tom entre 0 e 11, sendo o 0 correspondente ao dó e o 11 ao si. No final do cálculo da frequência e tempo de cada nota, o par é adicionado à lista, que no final é devolvida.
+
+\section{Sintetizador}
+O sintetizador recebe como argumentos os pares vindos do interpretador e um registo, devolvendo uma nova lista com a frequência (principal) e respetivas amostras ao processador de efeitos. Inicialmente são criadas as seguintes variáveis:
+
+\begin{itemize}
+\item Uma lista vazia, que irá ser a devolvida no final;
+\item Uma lista de tamanho 9, que irá conter os 9 frequências para cada nota;
+\item Uma lista de tamanho 9 com os múltiplos para o cálculo das 9 frequências para cada nota, de acordo com os osciladores: [1/2, 2/3, 1, 2, 3, 4, 5, 6, 8];
+\item Uma lista de tamanho 9 que irá conter as amplitudes das frequências para cada nota, de acordo com os valores definidos no registo.
+\item Um inteiro para a frequência de amostragem, que é sempre 44100.
+\end{itemize}
+
+De seguida, o sintetizador percorre a lista de pares recebido do interpretador, alterando a lista de frequências para cada nota. Para casa par produz as amostras com a duração definida, correspondendo à soma das 9 componentes sinosoidais. Estas têm a amplitude e frequência previamente calculadas e guardadas nas listas referidas acima. No final de cada nota ser processada, a frequência principal e amostras são adicionadas à lista que no final vai ser devolvida. A lista fica com a seguinte estrutura:
+
+\vspace{5mm}
+\begin{lstlisting}
+[{"freq": 830, "samples": [0, 11775, 18804, 19193, 14747, 9339, ...], {"freq": 659, "samples": [...], ...]
+\end{lstlisting}
+\vspace{5mm}
+
+Os cuidados com a possível existência de clipping não são tomados nesta altura, pelo ue existirá um método para normalizar as amostras mais à frente, no processador de efeitos.
+
+\section{Processador de efeitos}
+O processador de efeitos recebe a lista de sons vinda do sintetizador e o efeito pretendido, tendo ccomo função gerar o ficheiro de som da música. Nas secções seguintes irá ser explicado como é aplicado cada um dos efeitos.
+
+\subsection{Efeito nulo}
+A partir da lista de sons fornecida, extrai a lista de samples de cada som e junta-os numa única lista, para poder
+
+\subsection{Efeito eco}
+Aplica inicialmente o efeito nulo e, seguidamente, percorre a lista de amostras, somando a cada uma um múltiplo (inferior a 1, para atenuar) da amostra correspondente a 0,1 segundos atrás e outro múltiplo (mais pequeno que o anterior, para atenuar ainda mais, pois é um eco mais atrasado) da amostra 0,2 segundos atrás. Deste modo, são introduzidos dois ecos, com atrasos de 0,1 e 0,2 segundos.
+
+\subsection{Efeito trémolo}
+Aplica inicialmente o efeito nulo e, seguidamente, percorre a lista de amostras, elevando ao quadrado cada amostra.
+
+\subsection{Efeito distorção}
+
+\subsection{Efeito percurssão}
+
+\subsection{Efeito coro}
+
+\subsection{Efeito envelope}
+
+
+Depois do efeito pretendido ser aplicado, as amostras são normalizadas, para poderem estar contidas no intervalo de resolução (-32768 to 32767), sendo posteriormente empacotadas e utilizadas na geração do ficheiro wav.
