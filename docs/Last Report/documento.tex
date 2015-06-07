@@ -89,6 +89,20 @@
 %
 \pagenumbering{roman}
 
+\begin{abstract}
+
+Com o objetivo de criar um pequeno órgão Hammond virtual, desenvolvemos uma aplicação web que permite criar músicas no formato \ac{rtttl} e interpretá-las com a sonoralidade de um órgão deste tipo, com a possibilidade de aplicar efeitos.
+
+Para tal, começámos por fazer o planeamente de todas as funcionalidades a implementar e, seguidamente, criámos cada um dos módulos pretendidos: versão móvel, versão desktop, base de dados, servidor e módulos relacionados com a geração de som.
+
+Testámos e melhorámos a aplicação ao longo do tempo. O resultado foi uma aplicação que consegue gerar o conteúdo dinamicamente, guardando todos os ficheiros necessários antes, durante e depois de ser fechada.
+
+\end{abstract}
+
+\renewcommand{\abstractname}{Agradecimentos}
+\begin{abstract}
+Gostaríamos de agradecer aos nossos amigos e familiares; a todos os membros da comunidade da Universidade de Aveiro, em especial aos  professores Diogo Gomes e João Barraca, que prontamente responderam a todas as nossas dúvidas na realização deste trabalho, e ao colega Ricardo Jesus, pelas suas sugestões.
+\end{abstract}
 
 
 \tableofcontents
@@ -102,9 +116,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Introdução}
 \label{chap.introducao}
-Este documento contém uma abordagem geral das etapas de realização do projeto 2 de Laboratórios de Informática, de acordo com o enunciado disponibilizado na plataforma \textit{moodle} da universidade \cite{moodle}.
+Este documento contém uma abordagem detalhada dos módulos criados e das etapas de realização do projeto 2 de Laboratórios de Informática, de acordo com o enunciado disponibilizado na plataforma \textit{moodle} da universidade \cite{moodle}.
 
-Neste sentido, este documento está dividido em 7 capítulos. Depois desta introdução, no \autoref{chap.aplicacao} é apresentada a estrutura das páginas \ac{html} necessárias à interação com a aplicação, no \autoref{chap.servidor} são referidos alguns aspetos sobre o servidor, no \autoref{chap.som}, são tratados os módulos necessários ao processamento e geração de ficheiros de som e no \autoref{chap.base} é apresentada a árvore da base de dados a ser criada. Já no \autoref{chap.fases}, estão presentes as datas planeadas para o desenvolvimento do projeto, assim como a distribuição de tarefas da fase inicial. Finalmente, no \autoref{chap.finais} são apresentadas algumas considerações finais.
+Neste sentido, este documento está dividido em 8 capítulos. Depois desta introdução, no \autoref{chap.metodologia} é explicada a metodologia seguida. No \autoref{chap.aplicacao} é apresentada a estrutura e funcionamento das páginas \ac{html} necessárias à interação com a aplicação, no \autoref{chap.servidor} são referidos os aspetos relacionados com o servidor, no \autoref{chap.som}, são tratados os módulos necessários ao processamento e geração de ficheiros de som e no \autoref{chap.base} é apresentada a árvore da base de dados e métodos para o o seu acesso. Já no \autoref{chap.validacao}, estão presentes alguns pormenores sobre a validação de dados. Finalmente, no \autoref{chap.finais} são apresentadas algumas considerações finais.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -122,7 +136,15 @@ Para a realização deste projeto tivemos a seguinte ordem de trabalhos:
 \item Implementação dos pormenores finais, como a possibilidade de votar nas músicas e algumas validações para evitar erros de execução.
 \end{enumerate}
 
-Para o desenvolvimento dos módulos de geração de som, implementação do servidor e base de dados, foi utilizada a linguagem de programação Python \cite{python}. Recorreu-se ao módulo CherryPy \cite{cherry}, para o servidor, à ferramenta sqlite3 \cite{sqlite}, para a base dados, e ao pacote wave \cite{wave}, para o som.
+A distribuição das tarefas foi a seguinte:
+\begin{itemize}
+\item Domingos - \ac{html} e Javascript da versão móvel da aplicação;
+\item Dzianis - Servidor, Javascript da versão móvel e da versão desktop;
+\item Francisco - Base de dados e métodos de acesso e modificação da base de dados;
+\item Leonardo - Módulos do som, \ac{html} e Javascript da versão desktop da aplicação.
+\end{itemize}
+
+Para o desenvolvimento dos módulos ligados à geração de som, implementação do servidor e base de dados, foi utilizada a linguagem de programação Python \cite{python}. Recorreu-se ao módulo CherryPy \cite{cherry}, para o servidor, à ferramenta sqlite3 \cite{sqlite}, para a base dados, e ao pacote wave \cite{wave}, para o som.
 
 Quanto às páginas web, basearam-se na \emph{framework} JQuery Mobile \cite{jquery}, no caso da versão móvel, e no Bootstrap \cite{bootstrap}, para a versão \emph{desktop}.
 
@@ -144,34 +166,33 @@ Ao longo deste documento serão descritas as implementações realizadas, sendo 
 \input{base.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Fases de desenvolvimento}
-\label{chap.fases}
-Estão previstas três fases de desenvolvimento do projeto:
+\chapter{Validação}
+\label{chap.validacao}
+Ao longo do projeto foram tidos em conta alguns cuidados de validação, a fim de evitar erros desnecessários. Alguns desses cuidados foram referidos atrás, como o tratamento de exceções e a validação dos valores enviados para o servidor provenientes das caixas de texto das páginas web. Relativamente a este último caso, quando o servidor deteta alguma ilegalidade, devolve uma mensagem de erro, que é interpretada pela aplicação web e anunciada ao utilizador através de uma mensagem de aviso (ver \autoref{dataerror}).
 
-\begin{itemize}
-\item Fase 1 - 13 de Maio a 21 de Maio (a decorrer);
-\item Fase 2 - 22 de Maio a 29 de Maio;
-\item Fase 3 - 30 de Maio a 7 de Junho.
-\end{itemize}
+\begin{figure}[htp]
+\centering
+\frame{\includegraphics[width=\textwidth]{images/dataerror.png}}
+\caption{Erro na criação de uma interpretação, depois da introdução de dados inválidos.}
+\label{dataerror}
+\end{figure}
 
-\section{Fase 1}
-Inicialmente, será desenvolvida cada uma das partes da aplicação em separado e a distribuição das tarefas é a seguinte:
-\begin{itemize}
-\item Domingos - Implementação do \textit{mockup} das páginas \ac{html};
-\item Dzianis - Implementação do servido;
-\item Francisco - Implementação da base de dados;
-\item Leonardo - Implementação do sintetizador e interpretador de pautas.
-\end{itemize}
-\section{Fase 2}
-Neste fase a aplicação será testada no seu todo, sendo efetuados os ajustes necessários ao seu correto funcionamento, podendo ser acrescentadas algumas funcionalidades úteis que não tenham sido previstas.
-\section{Fase 3}
-Finalmente, serão afetuados os ajustes finais, sendo também completado o módulo processador de efeitos, para que este comece efetivamente a criar efeitos nas músicas: Echo, Tremolo, Distorção, Percursão, Chorus e Envelope.
+Outro exemplo de validação ocorre quando ainda não existem músicas adicionadas e, portanto, não é possível interpretar nem tocar músicas. Nesse caso, é apresentada uma página de aviso personalizada (ver \autoref{empty}).
+
+\begin{figure}[htp]
+\centering
+\frame{\includegraphics[width=\textwidth]{images/empty.png}}
+\caption{Página personalizada quando se tenta criar uma interpretação mas ainda não existe nenhuma música.}
+\label{empty}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Considerações finais}
 \label{chap.finais}
 
-...
+O desenvolvimento do projeto decorreu de acordo com o planeado, tendo, no entanto, havido algumas dificuldades na gestão do tempo para o cumprimento das tarefas.
+
+Foram atingidos os objetivos pretendidos: aplicação com versão desktop e mobile; possibilidade de adicionar músicas e interpretações, com efeitos e registos; e reprodução de músicas, com a possibilidade de votar.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

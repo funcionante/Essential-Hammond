@@ -1,23 +1,59 @@
 \chapter{Servidor}
 \label{chap.servidor}
 
-Vai ser utilizado o módulo CherryPy \cite{cherry} para fazer um servidor HTTP que irá ter funcionalidades como GET e POST. Vai utilizar o \ac{json} como o meio de transporte de informação entre a base de dados e a Aplicação Web.
+O programa server.py for construído  com o módulo CherryPy \cite{cherry}. Fizemos as seguintes importações: cherrypy, sqlite3 e os.path. As restantes importações são programas construídos pelos membros do grupo: interpreter, synthesizer, effects\_processor e database.
 
-Os serviços a implementar seguirão o modelo dos colocados no enunciado do projeto.
+O server.py possui uma única class (Root) onde se encontram os seguintes módulo criados: mobile, addVote, delVote, index, novainterpretacao, tocarmusica, sobrenos, createSong, createInterpretation, getWaveForm, getWaveFile, getNotes, listSongFiles, listNotes, listSongs.
 
-Estamos a considerar não implementar o \emph{/getWaveFile} e \emph{/getWaveForm}, visto que, se guardarmos os ficheiros com o nome igual ao seu identificador, a sua procura é facilitada, podendo-se aceder diretamente ao \emph{link} em que se encontram. Por exemplo, para obter o ficheiro de música da interpretação com id 5, acedemos a \emph{/interpretations/5.wav}.
+\section{index, novamusica, novainterpretacao, tocarmusica}
+Verifica se o website esta a ser acedido através de um dispositivo móvel ou computador. Caso seja móvel irá redirecionar sempre para o index da versão mobile. Caso contrário, devolve a página pedida na versão desktop.
 
-Se o utilziador pedir a lista de músicas existentes (\emph{/listSongs}), o servidor acede à base de dados e irá gerar um ficheiro \ac{json} com informação das músicas existentes e a aplicação web irá interpretar esse ficheiro. Um exemplo de ficheiro \ac{json} poderia ser:
+\section{createSong}
+Recebe como argumentos nome e pauta, verificando se estão minimamente válidos (nome não pode ser vazio, a pauta não pode estar vazia - quando javascript envia notas vazias, o módulo recebe-as no formato undefined:undefined). Após a verificação é feita decodificação para String dos parâmetros recebidos. Depois de converter é criada a imagem com o nome igual ao ID das notas no tabela musics da base de dados. A criação de imagem também serve de metodo de verificação, pois se ocorrer algum erro na criação, uma excessão é lançada e o programa envia mensagem de erro. Caso a imagem seja criada com sucesso, os dados são enviados para base de dadose e é devolvida uma mensagem de sucesso.
+
+\section{createInterpretation}
+Recebe como argumentos, registo, id da pauta, efeito e nome, fazendo a verificação (registo tem de ser númerico, tamanho do registo só pode ser 9, o registo não pode conter o algarismo 9, nome não pode ser vazio, efeito não pode ser vazio, id não pode ser vazio, id tem de ser numerico). Antes de criar o ficheiro .wav é necessário ir buscar e juntar o nome e as notas do id fornecido como argumento. Caso na criação do ficheiro .wav ocorra uma excessão, o programa imprime mensagem de erro. Se o ficheiro for criado com sucesso, a informação sobre a interpretação (argumentos do módulo) irá ser guardada na base de dados e irá ser devolvida uma mensagem de sucesso.
+
+\section{getWaveForm, getWaveFile}
+Recebe como argumento o id da música/interpretação, que depois irá redirecionar para o ficheiro .jpg/.wav. Caso o ficheiro nao exista será lançada a excessão 404NotFound.
+
+\section{getNotes}
+Recebe como argumento o id da tabela musics devolvendo as notas na forma de String.
+
+\section{listSongFiles}
+Recebe como argumento o id da tabela musics, onde irá buscar todas as interpretações feitas sobre essa musica, retornando na forma de json.
+
+\section{listNotes, listSongs}
+Não recebe nenhum argumento, devolvendo em formato json todas as tabelas de musics(tablema das notas) / interpretations(table das interpretações), respetivamente.
+
+Formato do json devolvido (listNotes):
+\begin{lstlisting}
+[
+	{
+		"notes": "d=4,o=5,b=160:c.6, e6, f#6, 8a6, g.6, e6, c6, 8a, 8f#, 8f#, 8f#, 2g, 8p, 8p, 8f#, 8f#, 8f#, 8g, a#., 8c6, 8c6, 8c6, c6",
+		"id": 1,
+		"name": "The Simpsons"
+	}
+]
+\end{lstlisting}
+Formato do json devolvido (listSongs) : 
 
 \begin{lstlisting}
-{
-    {
-        "id": 1,
-        "name": "The Simpsons"
-    },
-    {
-        "id": 2,
-        "name": "The Family Guy"
-    }
-}
+[
+	{
+		"name": "The Simpsons Rock Style",
+		"id_music": 1,
+		"downvotes": 10,
+		"effects": "distortion",
+		"registration": 888800000,
+		"upvotes": 2,
+		"id": 1
+	}
+]
 \end{lstlisting}
+
+\section{addVote, delVote}
+Recebe como argumento o id da interpretação onde irá adicionar, na tabela interpretations, uma unidade ao campo upvote / downvote, respetivamente. Caso a interpretação não exista ou a operação não ocorra por outro motivo, devolve mensagem de erro.
+
+\section{mobil}
+(Para testes) Força a aparecer a versão mobile do site, mesmo que o utilizador esteja a aceder a partir de um computador.
