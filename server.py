@@ -121,7 +121,7 @@ class Root(object):
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">Proj2App</a>
+        <a class="navbar-brand" href="/">Essential Hammond</a>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -384,7 +384,7 @@ config = {
   },
   '/static' : {
     'tools.staticdir.on'            : True,
-    'tools.staticdir.dir'           : os.path.join(path, 'public'),
+    'tools.staticdir.dir'           : os.path.join(path, 'mobile'),
   },
   '/desk' : {
     'tools.staticdir.on'            : True,

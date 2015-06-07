@@ -26,15 +26,6 @@ def update_parameter(parameters, parameter, value):
 			i += 1
 	
 	return int(value)
-	
-	
-def is_valid(pauta):
-	
-	#pauta nao vazia
-	#nome não vazio
-	#
-	
-	return true
 
 #produces the pairs frequency-duration
 def generate_pairs(pauta):
@@ -61,7 +52,11 @@ def generate_pairs(pauta):
 	freqs = get_freqs()
 	
 	#gets the part that contains the musical notes
-	notes = pauta[pauta.rfind(':')+1:]	
+	notes = pauta[pauta.rfind(':')+1:]
+	
+	#if there is no notes
+	if len(notes) == 0:
+		return []
 	
 	#list that will be returned at the end with pairs freq-time
 	pairs = []
@@ -250,55 +245,6 @@ def create_image(pairs, name):
 	
 	#crops the image
 	im = im.crop((0, miny, width, maxy))
-		
-	im.save(name)
-	
-	print 'Image created.'
-	
-#creates an image with a view of the notes contained in the pairs freq-time given
-def create_image2(pairs, name):
-	
-	print 'Creating image named ' + name + '.'
-	
-	#because frequencies are not linear, we will need the lookup table
-	#to do the opposite: getting the index by a frequency we have.
-	#so, the graphic will represent the notes linearly
-	freqs = get_freqs()
-	
-	#height is 500 by deafault. 
-	height = 500
-	
-	#width will be defined bt the total duration of the music. Each second is 100 pixels.
-	width = 0
-	for pair in pairs:
-		width += int(100 * pair['time'])
-	
-	#new image in black and white mode, and colored in white by default
-	im = Image.new('1', (width, height), 1)
-	
-	#these are the variables used to define the limites where the lines (that represents the notes) will be written (pixels in black)
-	startx = 0
-	starty = 0
-	endx = 0
-	endy = 0
-	
-	for pair in pairs:
-		endx += int(100 * pair['time'])
-		
-		freq = pair['freq']
-		
-		if freq != 0:
-			i = freqs.index(freq)
-			
-			starty = height - (495*i/95) - 5
-			endy = starty + 5
-		
-			for x in range(startx, endx):
-				for y in range(starty, endy):
-					pixel = 0 #black pixel to color de line
-					im.putpixel( (x,y), pixel)
-		
-		startx = endx
 		
 	im.save(name)
 	

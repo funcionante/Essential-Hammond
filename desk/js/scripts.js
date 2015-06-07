@@ -1,3 +1,4 @@
+//function to tell the server to do a upvote
 function addVote(x){
     $.post("addVote","id="+x,function(response){
     });
@@ -6,6 +7,7 @@ function addVote(x){
     $voted.attr("style","width: 100%");
 }
 
+//function to tell the server to do a downvote
 function delVote(x){
     $.post("delVote","id="+x,function(response){
     });
@@ -94,7 +96,5 @@ $(function(){
         }
 
     });
-    
-
     
 });
