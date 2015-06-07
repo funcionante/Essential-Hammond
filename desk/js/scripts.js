@@ -42,7 +42,6 @@ $(function(){
             }
             else{
                 $alerts.append('<div class="alert alert-danger pull-right" role="alert">Ocorreu um erro. Por favor, insere valores válidos.</div>'); //add a succss alert
-                $code.val(""); //cleans the input area
             }
         });
     });
@@ -74,8 +73,6 @@ $(function(){
             }
             else{
                 $alerts.append('<div class="alert alert-danger pull-right" role="alert">Ocorreu um erro. Por favor, insere valores válidos.</div>'); //add a succss alert
-                $name.val(""); //cleans the input area
-                $registration.val("");
             }
         });
 
