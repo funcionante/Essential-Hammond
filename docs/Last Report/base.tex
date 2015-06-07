@@ -23,7 +23,7 @@ A \autoref{tree} apresenta o esquema da árvore da base de dados.
 \label{tree}
 \end{figure}
 
-Dentro do ficheiro que cria a base de dados, há uma condição que verifica se se encontra criada a base de dados. Caso não exista, é o próprio programa que a cria, através do ficheiro \emph{create.txt}.
+Dentro do ficheiro que acede à base de dados, há uma condição que verifica se se encontra criada a base de dados. Caso não exista, é o próprio programa que a cria, através do ficheiro \emph{create.txt}.
 
 \begin{lstlisting}
 if not os.path.isfile('songs.db'):
@@ -55,7 +55,7 @@ def create_song(name, notes):
 \end{lstlisting}
 \vspace{5mm}
 
-A função acima descrita permite criar uma nova música na tabela das músicas, sendo que a cada nova música adicionada irá haver uma \textbf{id} que lhes é atribuida, facilitando desta forma a identificação da música mais facilmete quando é necessário fazer alterações. Para criar uma nova interpretação seguem-se os mesmos padrões do exemplo anterior.
+A função acima descrita permite criar uma nova música na tabela das músicas, sendo que a cada nova música adicionada irá haver uma \textbf{id} que lhe é atribuida, facilitando desta forma a identificação da música mais facilmete quando é necessário fazer alterações. Para criar uma nova interpretação seguem-se os mesmos padrões do exemplo anterior.
 
 Tal como é possível adicionar novas músicas, também se pode visualizar o conteúdo de uma tabela, neste caso, o conteúdo da \textbf{interpretations}, através do exemplo seguinte:
 

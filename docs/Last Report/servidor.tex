@@ -3,28 +3,28 @@
 
 O programa server.py for construído  com o módulo CherryPy \cite{cherry}. Fizemos as seguintes importações: cherrypy, sqlite3 e os.path. As restantes importações são programas construídos pelos membros do grupo: interpreter, synthesizer, effects\_processor e database.
 
-O server.py possui uma única class (Root) onde se encontram os seguintes módulo criados: mobile, addVote, delVote, index, novainterpretacao, tocarmusica, sobrenos, createSong, createInterpretation, getWaveForm, getWaveFile, getNotes, listSongFiles, listNotes, listSongs.
+O server.py possui uma única class (Root) onde se encontram os seguintes módulo criados: mobile, addVote, delVote, index, novainterpretacao, tocarmusica, sobrenos, createSong, createInterpretation, getWaveForm, getWaveFile, getNotes, listSongFiles, listNotes e listSongs.
 
 \section{index, novamusica, novainterpretacao, tocarmusica}
-Verifica se o website esta a ser acedido através de um dispositivo móvel ou computador. Caso seja móvel irá redirecionar sempre para o index da versão mobile. Caso contrário, devolve a página pedida na versão desktop.
+Verifica se o website esta a ser acedido através de um dispositivo móvel ou computador. Caso seja móvel irá redirecionar sempre para o index da versão \emph{mobile}. Caso contrário, devolve a página pedida na versão \emph{desktop}.
 
 \section{createSong}
-Recebe como argumentos nome e pauta, verificando se estão minimamente válidos (nome não pode ser vazio, a pauta não pode estar vazia - quando javascript envia notas vazias, o módulo recebe-as no formato undefined:undefined). Após a verificação é feita decodificação para String dos parâmetros recebidos. Depois de converter é criada a imagem com o nome igual ao ID das notas no tabela musics da base de dados. A criação de imagem também serve de metodo de verificação, pois se ocorrer algum erro na criação, uma excessão é lançada e o programa envia mensagem de erro. Caso a imagem seja criada com sucesso, os dados são enviados para base de dadose e é devolvida uma mensagem de sucesso.
+Recebe como argumentos o nome e a pauta, verificando se estão minimamente válidos (nome não pode ser vazio, a pauta não pode estar vazia - quando o javascript envia notas vazias, o módulo recebe-as no formato undefined:undefined). Após a verificação é feita descodificação para \emph{String} dos parâmetros recebidos. Depois de converter é criada a imagem com o nome igual ao id das notas na tabela musics da base de dados. A criação de imagem também serve de metodo de verificação pois, se ocorrer algum erro na criação, uma exceção é lançada e o programa envia uma mensagem de erro. Caso a imagem seja criada com sucesso, os dados são enviados para base de dados e é devolvida uma mensagem de sucesso.
 
 \section{createInterpretation}
-Recebe como argumentos, registo, id da pauta, efeito e nome, fazendo a verificação (registo tem de ser númerico, tamanho do registo só pode ser 9, o registo não pode conter o algarismo 9, nome não pode ser vazio, efeito não pode ser vazio, id não pode ser vazio, id tem de ser numerico). Antes de criar o ficheiro .wav é necessário ir buscar e juntar o nome e as notas do id fornecido como argumento. Caso na criação do ficheiro .wav ocorra uma excessão, o programa imprime mensagem de erro. Se o ficheiro for criado com sucesso, a informação sobre a interpretação (argumentos do módulo) irá ser guardada na base de dados e irá ser devolvida uma mensagem de sucesso.
+Recebe como argumentos o registo, o id da pauta, o efeito e o nome, fazendo a verificação (registo tem de ser númerico, tamanho do registo só pode ser 9, o registo não pode conter o algarismo 9, nome não pode ser vazio, efeito não pode ser vazio, id não pode ser vazio, id tem de ser numérico). Antes de criar o ficheiro .wav é necessário ir buscar e juntar o nome e as notas do id fornecido como argumento. Caso na criação do ficheiro .wav ocorra uma exceção, o programa imprime uma mensagem de erro. Se o ficheiro for criado com sucesso, a informação sobre a interpretação (argumentos do módulo) irá ser guardada na base de dados e irá ser devolvida uma mensagem de sucesso.
 
 \section{getWaveForm, getWaveFile}
-Recebe como argumento o id da música/interpretação, que depois irá redirecionar para o ficheiro .jpg/.wav. Caso o ficheiro nao exista será lançada a excessão 404NotFound.
+Recebe como argumento o id da música/interpretação, que depois irá redirecionar para o ficheiro .jpg/.wav. Caso o ficheiro nao exista será lançada a excessão \emph{404NotFound}.
 
 \section{getNotes}
-Recebe como argumento o id da tabela musics devolvendo as notas na forma de String.
+Recebe como argumento o id da tabela musics, devolvendo as notas na forma de \emph{String}.
 
 \section{listSongFiles}
-Recebe como argumento o id da tabela musics, onde irá buscar todas as interpretações feitas sobre essa musica, retornando na forma de json.
+Recebe como argumento o id da tabela musics, onde irá buscar todas as interpretações feitas sobre essa musica, retornando na forma de \ac{json}.
 
 \section{listNotes, listSongs}
-Não recebe nenhum argumento, devolvendo em formato json todas as tabelas de musics(tablema das notas) / interpretations(table das interpretações), respetivamente.
+Não recebe nenhum argumento, devolvendo em formato \ac{json} todas as tabelas de musics (tablema das notas) / interpretations (tabela das interpretações), respetivamente.
 
 Formato do json devolvido (listNotes):
 \begin{lstlisting}
@@ -53,7 +53,7 @@ Formato do json devolvido (listSongs) :
 \end{lstlisting}
 
 \section{addVote, delVote}
-Recebe como argumento o id da interpretação onde irá adicionar, na tabela interpretations, uma unidade ao campo upvote / downvote, respetivamente. Caso a interpretação não exista ou a operação não ocorra por outro motivo, devolve mensagem de erro.
+Recebe como argumento o id da interpretação onde irá adicionar, na tabela interpretations, uma unidade ao campo upvote / downvote, respetivamente. Caso a interpretação não exista ou a operação não ocorra por outro motivo, devolve uma mensagem de erro.
 
-\section{mobil}
-(Para testes) Força a aparecer a versão mobile do site, mesmo que o utilizador esteja a aceder a partir de um computador.
+\section{mobile}
+(Para testes) Força a aparecer a versão \emph{mobile} do site, mesmo que o utilizador esteja a aceder a partir de um computador.

@@ -1,9 +1,9 @@
 \section{Aplicação Desktop}
 
-A versão desktop da aplicação contém 5 páginas: inicial, nova música, nova interpretação, tocar música e sobre nós.
+A versão desktop da aplicação contém cinco páginas: inicial, nova música, nova interpretação, tocar música e sobre nós.
 
 \subsection{Página inicial}
-Nesta página faz-se uma breve apresentação da aplicação, disponibilizando ligações de interesse para as restantes páginas (ver \autoref{deskindex}).
+Nesta página faz-se uma breve apresentação da aplicação, disponibilizando-se ligações de interesse para as restantes páginas (ver \autoref{deskindex}).
 
 \begin{figure}[htp]
 \centering
@@ -13,7 +13,7 @@ Nesta página faz-se uma breve apresentação da aplicação, disponibilizando l
 \end{figure}
 
 \subsection{Nova música}
-Aqui, o utilizador pode adicionar as suas pautas no formato \ac{rtttl} (ver \autoref{desknova}). Para tal, introduz-se a pauta na caixa de texto disponibilizada e carrega-se em enviar música, sendo mostrada uma mensagem de sucesso à direita do botão quando o servidor termina o processamento. É utilizado o serviço /createSong (para enviar a música para o servidor).
+Aqui, o utilizador pode adicionar as suas pautas no formato \ac{rtttl} (ver \autoref{desknova}). Para tal, introduz-se a pauta na caixa de texto disponibilizada e carrega-se em enviar música, sendo mostrada uma mensagem de sucesso à direita do botão quando o servidor termina o processamento. É utilizado o serviço \textbf{/createSong} (para enviar a música para o servidor).
 
 \begin{figure}[htp]
 \centering
@@ -23,7 +23,7 @@ Aqui, o utilizador pode adicionar as suas pautas no formato \ac{rtttl} (ver \aut
 \end{figure}
 
 \subsection{Nova Interpretação}
-Tem um funcionamento semelhante à págna anterior, com a existêcia de mais opções para escolher: nome desejado para a interpretação, música a escolher de entre as existes, efeito e registo. Mostra igalmente mensagens de aviso, sendo que na \autoref{deskinter} é possível ver a mensagem intermédia "A Enviar...". São utilizados os serviços /createInterpretation (para enviar a interpretação para o servidor) e /listNotes (para listar as músicas existentes).
+Tem um funcionamento semelhante à págna anterior, com a existêcia de mais opções para escolher: nome desejado para a interpretação, música a escolher de entre as existes, efeito e registo. Mostra igalmente mensagens de aviso, sendo que na \autoref{deskinter} é possível ver a mensagem intermédia "A Enviar...". São utilizados os serviços \textbf{/createInterpretation} (para enviar a interpretação para o servidor) e \textbf{/listNotes} (para listar as músicas existentes).
 
 \begin{figure}[htp]
 \centering
@@ -33,12 +33,12 @@ Tem um funcionamento semelhante à págna anterior, com a existêcia de mais op�
 \end{figure}
 
 \subsection{Tocar música}
-Esta página dispõe de um menu lateral onde se pode selecionar a música pretendida. Para cada música, é mostrada a imagem da pauta e as respetivas interpretações existentes, com a possibilidade de efetuar votos (ver \autoref{desktocar}). São utilizados os serviços /addVote (para enviar um voto positivo), /delVote (para enviar um voto negativo), /getWaveForm (para obter o ficheiro de som), /getWaveFile (para obter a imagem da pauta), /listNotes (para listas as músicas existentes) e /listSongs (para listar as interpretações exitentes).
+Esta página dispõe de um menu lateral onde se pode selecionar a música pretendida. Para cada música, é mostrada a imagem da pauta e as respetivas interpretações existentes, com a possibilidade de efetuar votos (ver \autoref{desktocar}). São utilizados os serviços \textbf{/addVote} (para enviar um voto positivo), \textbf{/delVote} (para enviar um voto negativo), \textbf{/getWaveForm} (para obter o ficheiro de som), \textbf{/getWaveFile} (para obter a imagem da pauta), \textbf{/listNotes} (para listas as músicas existentes) e \textbf{/listSongs} (para listar as interpretações exitentes).
 
 \begin{figure}[htp]
 \centering
 \frame{\includegraphics[width=\textwidth]{images/desktocar.png}}
-\caption{Página para reproduzir músicas na versão desktop da aplicação.}
+\caption{Página para reproduzir músicas na versão \emph{desktop} da aplicação.}
 \label{desktocar}
 \end{figure}
 

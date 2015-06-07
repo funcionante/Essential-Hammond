@@ -39,3 +39,11 @@ def test_effect_none():
 	assert effect_none([],[]) == []
 	assert effect_none([],[{'freq': 440, 'samples':[20,30,-10,0]},{'freq': 600, 'samples':[800, 10, 47]}]) == [20,30,-10,0,800,10,47]
 	assert effect_none([200],[{'freq': 440, 'samples':[]},{'freq': 600, 'samples':[800, 47]}]) == [200,800,47]
+
+#teste para a normalização de uma lista
+def test_normalize():
+	assert max(normalize([100, 230, 3240, 231])) <= 32767
+	assert min(normalize([100, 230, 3240, 231])) >= -32767
+	
+	assert max(normalize([-2342346, 3454, 32545489])) <= 32767
+	assert min(normalize([-2342346, 3454, 32545489])) >= -32767
