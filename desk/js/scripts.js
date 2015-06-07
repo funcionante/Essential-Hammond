@@ -1,6 +1,5 @@
 function addVote(x){
     $.post("addVote","id="+x,function(response){
-        console.log(response);
     });
     
     var $voted = $("#voted"+x);
@@ -9,7 +8,6 @@ function addVote(x){
 
 function delVote(x){
     $.post("delVote","id="+x,function(response){
-        console.log(response);
     });
     
     var $voted = $("#voted"+x);
@@ -35,7 +33,6 @@ $(function(){
         };
 
         $.post("createSong",song,function(response){
-            console.log(response);
             $alerts.empty(); //removes any previous allerts
             if(response == "Sucess"){
                 $alerts.append('<div class="alert alert-success pull-right" role="alert">Música enviada com sucesso!</div>'); //add a succss alert
@@ -59,13 +56,6 @@ $(function(){
         $alerts.empty(); //removes any previous allerts
         $alerts.append('<div class="alert alert-info pull-right" role="alert">A enviar...</div>');
 
-        console.log($songs);
-        console.log($effects);
-        console.log($songs.find(":selected")[0]);
-        console.log($effects.find(":selected")[0]);
-        console.log($songs.find(":selected").attr("value"));
-        console.log($effects.find(":selected").attr("value"));
-
         var interpretation = {
             name: $name.val(),
             id: $songs.find(":selected").attr("value"),
@@ -74,7 +64,6 @@ $(function(){
         };
 
         $.post("createInterpretation",interpretation,function(response){
-            console.log(response);
             $alerts.empty(); //removes any previous allerts
             if(response == "Sucess"){
                 $alerts.append('<div class="alert alert-success pull-right" role="alert">Interpretação enviada com sucesso!</div>'); //add a succss alert

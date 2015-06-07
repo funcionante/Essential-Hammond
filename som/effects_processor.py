@@ -11,26 +11,6 @@ from synthesizer import generate_sounds
 
 rate = 44100
 
-'''
-#returns a list that contains the multiples ([0,1]) to apply to the amplitudes with the envelope effect
-def get_env2():
-	env = [None] * 200
-
-	env[0] = 0
-
-	for x in range(1, 200):
-		
-		if x < 40:
-			env[x] = env[x-1] + 0.255/x
-		elif x < 100:
-			env[x] = env[x-1] - 0.10/(x-39)
-		elif x < 140:
-			env[x] = env[x-1]
-		else:
-			env[x] = env[x-1] - 0.125/(x-139)
-			
-	return env
-'''
 #returns a list that contains the multiples ([0,1]) to apply to the amplitudes with the envelope effect
 def get_env():
 	env = [None] * 200
@@ -141,6 +121,7 @@ def effect_percussion(data, sounds):
 	subdata = sounds[0]['samples']
 	j = 0
 	
+	#applies the effect in the start of the music
 	for i in range(0, len(subdata)):
 		subdata[i] += int(dec[(j/441)] * 50000 * sin(2.0 * pi * freq * i / rate))
 		
@@ -153,6 +134,7 @@ def effect_percussion(data, sounds):
 		
 		subdata = sounds[sound]['samples']
 		
+		#applies the effect after a pause
 		if(sounds[sound-1]['freq'] == 0):
 			freq = sounds[sound]['freq']/2
 			j = 0
@@ -175,6 +157,7 @@ def effect_chorus(data, sounds):
 		subdata = sound['samples']
 		subdata = normalize(subdata)
 		
+		#applies 3 different "voices"
 		freq1 = sound['freq'] + 30
 		freq2 = sound['freq'] + 20
 		freq3 = sound['freq'] + 50

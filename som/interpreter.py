@@ -57,8 +57,6 @@ def generate_pairs(pauta):
 	o = update_parameter(parameters, 'o=', 6)
 	b = update_parameter(parameters, 'b=', 63)
 	
-	#print ('parameters: %d, %d, %d') % (d, o, b)
-	
 	#gets the list of frequencies (lookup table)
 	freqs = get_freqs()
 	
@@ -71,16 +69,12 @@ def generate_pairs(pauta):
 	#cicle that will go through the notes and will interpret each note
 	while True:
 		
-		#print 'notes: ' + notes
-		
 		#if it isn't the last note of string notes, it will read until the comma
 		if notes.find(',') != -1:
 			note = notes[:notes.find(',')]
 		#else, it takes the only note in the string
 		else:
 			note = notes
-		
-		#print "note: " + note
 		
 		#initializes the variables
 		i = 0 #index of string note
@@ -154,8 +148,6 @@ def generate_pairs(pauta):
 		elif note.find('p') != -1:
 			tone = 77
 			i = note.find('p') + 1
-
-		#print ("tone: %d") % (tone)
 		
 		# if there is a dot increasing the duration of the note by 50%
 		if note.find('.') != -1:
@@ -178,27 +170,17 @@ def generate_pairs(pauta):
 		value = int(value)
 		newo = int(newo)
 		
-		#print "newo: %d" % (newo)
-		#print "value: %d" % (value)
-		
-		#print b
-		#print d
-		
 		#calculates the time
 		time = float((float(60)/b) * (float(d)/value))
 		
 		if fifty:
 			time *= 1.5
-				
-		#print ('time: %f') % time
 		
 		#calculates the frequency
 		if tone != 77:
 			freq = freqs[12 * int(newo) + tone]
 		else:
 			freq = 0
-			
-		#print ('freq: %f') % freq
 		
 		#adds the pair
 		pairs.append({'time': time, 'freq': freq})
