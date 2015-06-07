@@ -4,6 +4,7 @@ import sys
 import os.path
 import re
 
+# checks if device is mobile or desktop
 def is_mobile(request):
     ismobile = False
 
@@ -19,13 +20,15 @@ def is_mobile(request):
         if match:
            ismobile = True
 
-    return ismobile
+    return ismobile 
 
+# creates a new line in musics table
 def create_song(name, notes):
 	command = 'INSERT INTO musics(name, notes) VALUES("' + name + '", "' + notes + '")'
 	db.execute(command)
 	db.commit()
-
+	
+#shows the all content from musics table	
 def get_all_notes():
 	command = 'SELECT * FROM musics'
 	result = db.execute(command)
@@ -36,7 +39,8 @@ def get_all_notes():
 		d.append(name)
 
 	return d
-
+	
+#shows the all content from interpretations table	
 def get_all_songs():
 	command = 'SELECT * FROM interpretations'
 	result = db.execute(command)
@@ -48,6 +52,7 @@ def get_all_songs():
 
 	return d
 
+# shows all id's from musics table, raising IndexError exception when a sequence subscript is out of range
 def last_id():
 	try:
 		result = db.execute("SELECT id FROM musics")
@@ -59,6 +64,7 @@ def last_id():
 	except IndexError, e:
 		return 1
 
+# shows all id's from interpretations table, raising IndexError exception when a sequence subscript is out of range 
 def last_id_interpretations():
 	try:
 		result = db.execute("SELECT id FROM interpretations")
@@ -71,35 +77,39 @@ def last_id_interpretations():
 	except IndexError, e:
 		return 1
 
+# creates a new line in interpretations table 
 def create_interpretation(registration, effects,id_music,name):
 	
 	command = 'INSERT INTO interpretations(id_music,name,registration, effects) VALUES("' + id_music + '","' + name + '","' + registration + '", "' + effects + '")'
 	db.execute(command)
 	db.commit()
 
+# shows the all content from interpretations table
 def get_interpretations():
 	
 	command = 'SELECT * FROM interpretations'
 	db.execute(command)
 
-	
+# shows the content from musics table
 def list_songs(music):
 	
 	print ' ID / NAME / NOTES '
 	for row in musics:
 		print "%s / %s / %s".format(row[0], row[1], row[2]) 
 
-
+# shows the notes from a song according to corresponding id, in musics table
 def get_notes(ID):
 	command = 'SELECT notes FROM musics WHERE id =' + ID
 	result = db.execute(command)
 	return result.fetchone()
 
+# shows the name and notes from a song according to corresponding id, , in musics table
 def get_notes_and_name(ID):
 	command = 'SELECT name,notes FROM musics WHERE id =' + ID
 	result = db.execute(command)
 	return result.fetchone()
 	
+# update the name or notes from musics table according to corresponding id. checks if there is not empty spaces in order to update	
 def edit_musics(ID, name, notes):
 	if name != '':
 		command = 'UPDATE musics SET name = "' + name + '" WHERE id = ' + ID
@@ -108,7 +118,8 @@ def edit_musics(ID, name, notes):
 	if notes != '':
 		command = 'UPDATE musics SET notes = "' + notes + '" WHERE id = ' + Id
 		db.execute(command)
-		
+
+# update the registration or effects from interpretations table according to corresponding id. checks if there is not empty spaces in order to update	
 def edit_interpretations(ID, registration, effects):
 	if  registration != '':
 		command = 'UPDATE interpretations SET registration = "' + registration + '" WHERE id = ' + ID
@@ -118,6 +129,7 @@ def edit_interpretations(ID, registration, effects):
 		command = 'UPDATE interpretations SET effects = "' + effects + '" WHERE id = ' + ID
 		db.execute(command)
 		
+# shows a specifif line from interpretations table according to corresponding id	
 def get_songs(ID):
 	command = 'SELECT * FROM interpretations WHERE id_music = ' + ID
 	result = db.execute(command)
@@ -129,6 +141,7 @@ def get_songs(ID):
 
 	return d
 	
+#increases in one unity the posivite likes in interpretations table	
 def add_upvotes(ID):
 	command = 'SELECT upvotes FROM interpretations WHERE id = ' + str(ID)
 	result = db.execute(command)
@@ -139,6 +152,7 @@ def add_upvotes(ID):
 	db.commit()
 	
 
+#increases in one unity the negative likes in interpretations table	
 def add_downvotes(ID):
 	command = 'SELECT downvotes FROM interpretations WHERE id = ' + str(ID)
 	result = db.execute(command)
@@ -150,7 +164,7 @@ def add_downvotes(ID):
 
 
 
-#creates a new library database if there is no one. needs create.txt file to work properly.
+#cria uma nova songs database if no one is available. needs create.txt file to work properly.
 if not os.path.isfile('songs.db'):
 	
 	if not os.path.isfile('create.txt'):
