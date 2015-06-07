@@ -54,13 +54,9 @@ $.ajax({
 
 		for (var i = 1; i < id.length; i++) {
 			$('#'+id[i]).hide();
-			console.log('#'+id[i]);
 		};
 	}
 });
-
-
-
 
 function addNote() {
 	var elem = document.getElementById("text");
@@ -72,7 +68,6 @@ function addNote() {
 	var x = "name="+encodeURIComponent(name)+"&notes="+encodeURIComponent(notas);
 
 	$.post("createSong",x,function(response){
-		console.log(response);
 		if(response == "Sucess"){
 			document.getElementById("himynameis").innerHTML = "Musica enviada com sucesso!";
 		}
@@ -88,8 +83,6 @@ function addMusic () {
 	var efeito = document.getElementById("efeito").value;
 	var nome = document.getElementById("nome").value;
 	var x = "registration="+registo+"&id="+id+"&effects="+efeito+"&name=+"+nome;
-
-	console.log(x);
 
 	$.post("createInterpretation",x,function(response){
 		if(response == "Sucess"){
